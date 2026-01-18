@@ -1,23 +1,23 @@
-V<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1280">
-    <title>로그인 및 회원가입 | SUPER 9 BET</title>
+    <title>로그인 | SUPER 9 BET</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --point-gold: #eebb4d; --point-green: #2ecc71; --bg-dark: #0a0a0a; --neon-mix: 0 0 15px #eebb4d, 0 0 30px #2ecc71; }
-        body { background-color: var(--bg-dark); color: #fff; font-family: 'Noto Sans KR', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; background: radial-gradient(circle at center, #0a2e10 0%, #0a0a0a 100%); }
+        body { background-color: var(--bg-dark); color: #fff; font-family: 'Noto Sans KR', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: radial-gradient(circle at center, #0a2e10 0%, #0a0a0a 100%); }
         .login-box { background: rgba(21, 21, 21, 0.95); padding: 50px; border-radius: 25px; border: 2px solid var(--point-green); text-align: center; box-shadow: var(--neon-mix); width: 400px; backdrop-filter: blur(15px); }
         .logo { font-size: 35px; font-weight: 900; color: #fff; font-style: italic; margin-bottom: 30px; text-shadow: 0 0 20px #2ecc71; }
         .logo span { color: var(--point-gold); text-shadow: 0 0 20px #eebb4d; }
         .tab-menu { display: flex; margin-bottom: 25px; border-bottom: 1px solid #333; }
         .tab { flex: 1; padding: 12px; cursor: pointer; color: #666; font-weight: 700; transition: 0.3s; }
-        .tab.active { color: var(--point-green); border-bottom: 3px solid var(--point-green); text-shadow: 0 0 10px var(--point-green); }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: var(--point-green); outline: none; box-shadow: 0 0 10px rgba(46, 204, 113, 0.4); }
-        .btn-main { width: 100%; padding: 18px; background: linear-gradient(135deg, #2ecc71, #27ae60); border: none; color: #fff; font-weight: 900; font-size: 19px; border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px rgba(46, 204, 113, 0.5); transition: 0.3s; }
-        .btn-main:hover { transform: scale(1.03); box-shadow: 0 0 25px rgba(46, 204, 113, 0.7); }
+        .tab.active { color: var(--point-green); border-bottom: 3px solid var(--point-green); }
+        .input-group { position: relative; width: 100%; margin-bottom: 15px; }
+        input { width: 100%; padding: 15px; background: #000; border: 1px solid #333; color: #fff; border-radius: 8px; box-sizing: border-box; }
+        .toggle-pw { position: absolute; right: 15px; top: 15px; cursor: pointer; color: var(--point-green); font-size: 12px; font-weight: bold; }
+        .btn-main { width: 100%; padding: 18px; background: linear-gradient(135deg, #2ecc71, #27ae60); border: none; color: #fff; font-weight: 900; font-size: 19px; border-radius: 8px; cursor: pointer; box-shadow: 0 0 15px rgba(46, 204, 113, 0.5); }
         #registerForm { display: none; }
     </style>
 </head>
@@ -28,28 +28,42 @@ V<!DOCTYPE html>
             <div id="t-login" class="tab active" onclick="showTab('login')">LOGIN</div>
             <div id="t-join" class="tab" onclick="showTab('join')">JOIN</div>
         </div>
+        
         <div id="loginForm">
-            <input type="text" id="loginEmail" placeholder="ID (Email Address)">
-            <input type="password" id="loginPw" placeholder="Password">
+            <input type="text" id="loginEmail" placeholder="ID (Email)" style="margin-bottom:15px;">
+            <div class="input-group">
+                <input type="password" id="loginPw" placeholder="Password">
+                <span class="toggle-pw" onclick="togglePassword('loginPw')">보기</span>
+            </div>
             <button class="btn-main" onclick="handleLogin()">ENTER CASINO</button>
         </div>
+
         <div id="registerForm">
-            <input type="text" id="regNick" placeholder="Nickname">
-            <input type="email" id="regEmail" placeholder="Email Address">
-            <input type="password" id="regPw" placeholder="Password (Min. 6 characters)">
+            <input type="text" id="regNick" placeholder="Nickname" style="margin-bottom:15px;">
+            <input type="email" id="regEmail" placeholder="Email" style="margin-bottom:15px;">
+            <div class="input-group">
+                <input type="password" id="regPw" placeholder="Password (Min. 6)">
+                <span class="toggle-pw" onclick="togglePassword('regPw')">보기</span>
+            </div>
             <button class="btn-main" onclick="handleRegister()">CREATE ACCOUNT</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyDOVJtg5lxJTBP2Vm1mzbuecKu9Rg-I4k4", authDomain: "gambling-23339.firebaseapp.com", projectId: "gambling-23339", storageBucket: "gambling-23339.firebasestorage.app", messagingSenderId: "1031894079454", appId: "1:1031894079454:web:960ca0f1748493cdd9af4f" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+
+        window.togglePassword = (id) => {
+            const el = document.getElementById(id);
+            el.type = el.type === 'password' ? 'text' : 'password';
+            event.target.innerText = el.type === 'password' ? '보기' : '숨기기';
+        };
 
         window.showTab = (t) => {
             document.getElementById('loginForm').style.display = t==='login'?'block':'none';
@@ -57,17 +71,34 @@ V<!DOCTYPE html>
             document.getElementById('t-login').classList.toggle('active', t==='login');
             document.getElementById('t-join').classList.toggle('active', t==='join');
         };
-        window.handleLogin = () => {
-            signInWithEmailAndPassword(auth, document.getElementById('loginEmail').value, document.getElementById('loginPw').value)
-                .then(() => location.href="index.html").catch(() => alert("ID/PW 불일치"));
+
+        window.handleLogin = async () => {
+            const email = document.getElementById('loginEmail').value;
+            const pw = document.getElementById('loginPw').value;
+            try {
+                const res = await signInWithEmailAndPassword(auth, email, pw);
+                const snap = await getDoc(doc(db, "users", res.user.uid));
+                // [보안] Auth에는 존재하지만 Firestore 데이터가 삭제된 경우 차단
+                if(!snap.exists()) {
+                    alert("탈퇴되었거나 정보가 없는 계정입니다.");
+                    await signOut(auth);
+                    return;
+                }
+                location.href = "index.html";
+            } catch(e) { alert("아이디 또는 비밀번호가 틀립니다."); }
         };
-        window.handleRegister = () => {
-            const nick = document.getElementById('regNick').value, email = document.getElementById('regEmail').value, pw = document.getElementById('regPw').value;
-            if(!nick || !email || pw.length < 6) return alert("입력 정보 미비");
-            createUserWithEmailAndPassword(auth, email, pw).then(async (res) => {
+
+        window.handleRegister = async () => {
+            const nick = document.getElementById('regNick').value;
+            const email = document.getElementById('regEmail').value;
+            const pw = document.getElementById('regPw').value;
+            if(!nick || !email || pw.length < 6) return alert("입력 정보를 확인하세요.");
+            try {
+                const res = await createUserWithEmailAndPassword(auth, email, pw);
                 await setDoc(doc(db, "users", res.user.uid), { nickname: nick, balance: 100000, role: 'user' });
-                alert("가입 완료! 10만 포인트 지급."); location.href="index.html";
-            }).catch(() => alert("가입 실패"));
+                alert("가입 성공! 10만 포인트가 지급되었습니다.");
+                location.href = "index.html";
+            } catch(e) { alert("이미 가입된 이메일이거나 오류가 발생했습니다."); }
         };
     </script>
 </body>
