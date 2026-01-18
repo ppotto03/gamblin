@@ -1,10 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>로그인</title>
+    <meta name="viewport" content="width=1280"> <title>로그인 | SUPER 9 BET</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --point-gold: #eebb4d; --bg-dark: #0a0a0a; }
+        body { 
+            background-color: var(--bg-dark); 
+            color: #fff; 
+            font-family: 'Noto Sans KR', sans-serif; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh;
+            overflow: hidden;
+        }
+        .login-box {
+            background: #151515;
+            padding: 50px;
+            border-radius: 20px;
+            border: 2px solid var(--point-gold);
+            text-align: center;
+            box-shadow: 0 0 30px rgba(238, 187, 77, 0.2);
+            width: 400px;
+        }
+        .logo { font-size: 32px; font-weight: 900; color: #fff; font-style: italic; margin-bottom: 30px; }
+        .logo span { color: var(--point-gold); }
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #000;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to bottom, #ffd700, #b8860b);
+            border: none;
+            color: #000;
+            font-weight: 900;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-login:hover { transform: scale(1.02); }
+        .footer-links { margin-top: 20px; font-size: 14px; color: #888; }
+        .footer-links span { color: var(--point-gold); cursor: pointer; margin: 0 10px; }
+    </style>
 </head>
 <body>
-    <h2>로그인이 필요합니다.</h2>
-    </body>
+
+    <div class="login-box">
+        <div class="logo">S <span>SUPER 9 BET</span></div>
+        <input type="text" id="email" placeholder="이메일 주소를 입력하세요">
+        <input type="password" id="pw" placeholder="비밀번호를 입력하세요">
+        <button class="btn-login" onclick="handleLogin()">로그인 접속</button>
+        
+        <div class="footer-links">
+            <span onclick="alert('관리자에게 문의하세요.')">회원가입</span> | 
+            <span onclick="alert('고객센터로 연락바랍니다.')">비밀번호 찾기</span>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+        // 기존에 사용하시던 Firebase 설정값을 그대로 사용하세요
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDOVJtg5lxJTBP2Vm1mzbuecKu9Rg-I4k4", 
+            authDomain: "gambling-23339.firebaseapp.com", 
+            projectId: "gambling-23339", 
+            storageBucket: "gambling-23339.firebasestorage.app", 
+            messagingSenderId: "1031894079454", 
+            appId: "1:1031894079454:web:960ca0f1748493cdd9af4f" 
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        window.handleLogin = () => {
+            const email = document.getElementById('email').value;
+            const pw = document.getElementById('pw').value;
+
+            signInWithEmailAndPassword(auth, email, pw)
+                .then(() => {
+                    location.href = "index.html"; // 로그인 성공 시 메인으로
+                })
+                .catch((error) => {
+                    alert("로그인 정보가 일치하지 않습니다.");
+                });
+        };
+    </script>
+</body>
 </html>
