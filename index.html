@@ -2,77 +2,84 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title> SUPER 000 BET CASINO | MANAGEMENT</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --point-gold: #eebb4d; --bg-dark: #0a0a0a; --panel-bg: #151515; --neon-red: #ff0000; --neon-yellow: #ffff00; }
-        body { background-color: var(--bg-dark); color: #eee; font-family: 'Noto Sans KR', sans-serif; margin: 0; overflow: hidden; }
+        body { background-color: var(--bg-dark); color: #eee; font-family: 'Noto Sans KR', sans-serif; margin: 0; overflow-x: hidden; }
 
         /* 결과 팝업 */
         #resultPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000; 
-                       background: #000; border: 3px solid var(--point-gold); padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 50px gold; min-width: 300px; }
+                       background: #000; border: 3px solid var(--point-gold); padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 50px gold; min-width: 280px; }
 
         /* 상단 네비게이션 */
-        .top-nav { background: linear-gradient(180deg, #1b5e20, #0a2e10); height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 30px; border-bottom: 2px solid #222; position: relative; z-index: 1000; }
-        .logo { font-size: 26px; font-weight: 900; color: #fff; cursor: pointer; font-style: italic; text-shadow: 2px 2px 4px #000; }
-        .nav-right { display: flex; align-items: center; gap: 20px; }
-        .asset-box { background: #000; padding: 8px 15px; border-radius: 5px; border: 1px solid gold; color: gold; font-weight: 900; font-size: 20px; min-width: 140px; text-align: right; box-shadow: inset 0 0 10px rgba(255,215,0,0.3); }
-        .user-menu span { cursor: pointer; color: #bbb; padding: 5px 8px; border-radius: 4px; background: rgba(255,255,255,0.05); font-size: 14px; }
+        .top-nav { background: linear-gradient(180deg, #1b5e20, #0a2e10); height: 70px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; border-bottom: 2px solid #222; position: relative; z-index: 1000; }
+        .logo { font-size: 20px; font-weight: 900; color: #fff; cursor: pointer; font-style: italic; text-shadow: 2px 2px 4px #000; }
+        .nav-right { display: flex; align-items: center; gap: 10px; }
+        .asset-box { background: #000; padding: 5px 10px; border-radius: 5px; border: 1px solid gold; color: gold; font-weight: 900; font-size: 16px; min-width: 100px; text-align: right; box-shadow: inset 0 0 10px rgba(255,215,0,0.3); }
+        .user-menu span { cursor: pointer; color: #bbb; padding: 3px 6px; border-radius: 4px; background: rgba(255,255,255,0.05); font-size: 12px; }
 
         /* 광고 애니메이션 */
         @keyframes neon-flash { 0% { opacity: 1; filter: brightness(1); } 50% { opacity: 0.7; filter: brightness(1.5); } 100% { opacity: 1; filter: brightness(1); } }
         @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         
         .ad-row { display: flex; gap: 10px; margin-bottom: 20px; }
-        .ad-box { flex: 1; height: 60px; display: flex; align-items: center; justify-content: center; font-weight: 900; border: 2px solid #fff; border-radius: 5px; animation: neon-flash 0.3s infinite; font-size: 18px; text-shadow: 1px 1px 2px #000; overflow: hidden; position: relative; }
-        .banner-ad { width: 100%; height: 100px; margin-top: 20px; border: 2px solid var(--point-gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #000; position: relative; overflow: hidden; }
-        .banner-text { position: absolute; white-space: nowrap; font-size: 26px; font-weight: 900; color: #fff; animation: marquee 12s linear infinite; }
+        .ad-box { flex: 1; height: 50px; display: flex; align-items: center; justify-content: center; font-weight: 900; border: 2px solid #fff; border-radius: 5px; animation: neon-flash 0.3s infinite; font-size: 14px; text-shadow: 1px 1px 2px #000; overflow: hidden; position: relative; text-align: center; }
+        .banner-ad { width: 100%; height: 80px; margin-top: 20px; border: 2px solid var(--point-gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #000; position: relative; overflow: hidden; }
+        .banner-text { position: absolute; white-space: nowrap; font-size: 20px; font-weight: 900; color: #fff; animation: marquee 12s linear infinite; }
 
-        /* 메인 레이아웃 */
-        .main-wrapper { display: flex; height: calc(100vh - 70px); }
-        .sidebar { width: 220px; background: #0d0d0d; border-right: 1px solid #222; display: flex; flex-direction: column; }
+        /* 메인 레이아웃 (모바일 대응 가변 처리) */
+        .main-wrapper { display: flex; height: calc(100vh - 70px); flex-direction: row; }
         
-        /* 메뉴 활성화 스타일 */
-        .menu-item { padding: 25px 20px; cursor: pointer; color: #888; font-weight: 700; border-left: 5px solid transparent; transition: all 0.2s; font-size: 16px; }
+        /* 사이드바 가변폭 */
+        .sidebar { width: 220px; background: #0d0d0d; border-right: 1px solid #222; display: flex; flex-direction: column; overflow-y: auto; flex-shrink: 0; }
+        
+        /* 메뉴 스타일 */
+        .menu-item { padding: 20px 15px; cursor: pointer; color: #888; font-weight: 700; border-left: 5px solid transparent; transition: all 0.2s; font-size: 14px; }
         .menu-item:hover { background: #1a1a1a; color: #ccc; }
         .menu-active { background: #1a1a1a !important; color: #ffff00 !important; border-left: 5px solid #ffff00 !important; font-weight: 900; }
 
-        .content { flex: 1; padding: 30px; overflow-y: auto; background: #111; position: relative; }
+        .content { flex: 1; padding: 20px; overflow-y: auto; background: #111; position: relative; }
 
-        /* [수정된 부분] 게임 룰 박스 스타일 - 높이를 늘리고 스크롤 가능하게 변경 */
-        .rule-box { margin: 10px; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; font-size: 12px; color: #aaa; line-height: 1.8; min-height: 200px; max-height: 300px; overflow-y: auto; }
-        .rule-box h4 { color: gold; margin-top: 0; margin-bottom: 12px; border-bottom: 1px solid #444; padding-bottom: 5px; font-size: 14px; text-align: center; }
+        /* 게임 룰 박스 */
+        .rule-box { margin: 10px; padding: 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; font-size: 11px; color: #aaa; line-height: 1.8; min-height: 150px; max-height: 250px; overflow-y: auto; }
+        .rule-box h4 { color: gold; margin: 0 0 10px 0; border-bottom: 1px solid #444; padding-bottom: 5px; font-size: 13px; text-align: center; }
         .rule-box b { color: #fff; display: block; margin-top: 8px; }
         .rule-box span { color: #eebb4d; }
 
-        /* 광고 디자인 */
+        /* 사이드 광고 */
         .side-ad { margin-top: auto; padding: 10px; }
-        .mini-ad { background: #ff5252; color: #fff; padding: 8px; margin-bottom: 5px; border-radius: 5px; font-size: 12px; text-align: center; font-weight: 900; animation: neon-flash 0.5s infinite alternate; }
+        .mini-ad { background: #ff5252; color: #fff; padding: 8px; margin-bottom: 5px; border-radius: 5px; font-size: 11px; text-align: center; font-weight: 900; animation: neon-flash 0.5s infinite alternate; }
 
-        .game-panel { background: var(--panel-bg); border-radius: 15px; padding: 30px; text-align: center; border: 1px solid #333; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .btn-play { background: linear-gradient(to bottom, #ffd700, #b8860b); color: #000; border: none; padding: 12px 30px; font-weight: 900; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 0 #7b6500; }
+        .game-panel { background: var(--panel-bg); border-radius: 15px; padding: 20px; text-align: center; border: 1px solid #333; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .btn-play { background: linear-gradient(to bottom, #ffd700, #b8860b); color: #000; border: none; padding: 10px 20px; font-weight: 900; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 0 #7b6500; font-size: 14px; }
         
-        /* 테이블/리스트 스타일 */
-        .bac-table { background: radial-gradient(circle, #2e7d32, #1b5e20); border: 8px solid #3e2723; border-radius: 100px; padding: 30px; display: flex; justify-content: center; gap: 40px; margin: 20px 0; }
-        .card-slot { width: 80px; height: 110px; background: rgba(0,0,0,0.3); border-radius: 5px; display: inline-block; }
-        .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
-        .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: url('https://deckofcardsapi.com/static/img/back.png') center/cover; }
-        .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transform: rotateY(180deg); background-size: cover; }
-        .flipped { transform: rotateY(180deg); }
+        /* 모바일용 카드 및 캔버스 크기 조정 */
+        canvas { max-width: 100%; height: auto; }
+        .bac-table { background: radial-gradient(circle, #2e7d32, #1b5e20); border: 4px solid #3e2723; border-radius: 50px; padding: 15px; display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
+        .card-slot { width: 60px; height: 85px; background: rgba(0,0,0,0.3); border-radius: 5px; display: inline-block; }
 
-        .cs-list { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        .cs-list th, .cs-list td { border-bottom: 1px solid #333; padding: 12px; text-align: center; }
-        .reply-box { background: #222; padding: 10px; margin-top: 5px; border-left: 3px solid gold; font-size: 13px; text-align: left; }
+        .cs-list { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        .cs-list th, .cs-list td { border-bottom: 1px solid #333; padding: 8px; text-align: center; }
 
         .view { display: none; }
         .active-view { display: block; }
+
+        /* 스마트폰 화면 전용 스타일 (모바일 대응) */
+        @media screen and (max-width: 768px) {
+            .sidebar { width: 120px; }
+            .menu-item { padding: 15px 10px; font-size: 12px; }
+            .rule-box { display: none; } /* 모바일에서는 공간 부족으로 룰박스 숨김 */
+            .logo { font-size: 16px; }
+            .ad-box { font-size: 11px; height: 40px; }
+        }
     </style>
 </head>
 <body>
 
     <div id="resultPopup">
-        <h1 id="popTitle" style="font-size:40px;">WIN</h1>
+        <h1 id="popTitle" style="font-size:30px;">WIN</h1>
         <h2 id="popAmount" style="color:gold;">+ 0</h2>
         <button class="btn-play" onclick="closePopup()">확인</button>
     </div>
@@ -82,9 +89,6 @@
         <div class="nav-right">
             <div class="asset-box">₩ <span id="assetVal">0</span></div>
             <div class="user-menu">
-                <strong id="userNick" style="color:white; margin-right:5px;">불러오는 중...</strong>
-                <span onclick="showView('csCenter')">고객센터</span>
-                <span onclick="showView('myPage')">마이페이지</span>
                 <span onclick="handleLogout()" style="color:#ff5252;">로그아웃</span>
             </div>
         </div>
@@ -96,59 +100,49 @@
             <div id="m-slotView" class="menu-item" onclick="showView('slotView')">777슬롯</div>
             <div id="m-bacView" class="menu-item" onclick="showView('bacView')">바카라</div>
             <div id="m-snailView" class="menu-item" onclick="showView('snailView')">달팽이 레이스</div>
+            <div id="m-csCenter" class="menu-item" onclick="showView('csCenter')">고객센터</div>
+            <div id="m-myPage" class="menu-item" onclick="showView('myPage')">마이페이지</div>
             
             <div class="rule-box">
-                <h4>📜 이용 규정 안내</h4>
-                <b>[ 🎰 777슬롯 ]</b>
-                • 7-7-7 당첨 시 : <span>17.7배</span><br>
-                • 동일 그림 2개 : <span>1.5배</span><br>
-                • 7 그림 2개 : <span>2.7배</span>
-                
-                <b>[ 🃏 바카라 ]</b>
-                • 플레이어 승리 : <span>2.5배</span><br>
-                • 뱅커 승리 : <span>2.5배</span><br>
-                • 타이(무승부) : <span>9.0배</span>
-                
-                <b>[ 🐌 달팽이 레이스 ]</b>
-                • 우승 달팽이 적중 : <span>2.8배</span><br>
-                • 중도 포기 시 베팅금 소멸
-                
-                <b>[ ⚠️ 필독 사항 ]</b>
-                • 비정상 베팅 적발 시 전액 몰수<br>
-                • 모든 베팅은 실시간 처리됩니다.
+                <h4>📜 이용 규정</h4>
+                <b>[ 슬롯 ]</b>
+                • 777: <span>17.7배</span><br>
+                • 페어: <span>1.5배</span>
+                <b>[ 바카라 ]</b>
+                • P/B: <span>2.5배</span><br>
+                • TIE: <span>9.0배</span>
             </div>
 
             <div class="side-ad">
-                <div class="mini-ad" style="background: #00ff00; color: #000;">💸 단독 무사고 안전 놀이터 💸</div>
-                <div class="mini-ad" style="background: #ff00ff;">💎 고배당 잭팟 💎</div>
+                <div class="mini-ad" style="background: #00ff00; color: #000;">💸 안전 놀이터 💸</div>
             </div>
         </div>
 
         <div class="content">
             <div class="ad-row">
-                <div class="ad-box" style="background:red; color:yellow; border-color: yellow;">🔥 보증업체 10년차 메이저 🔥</div>
-                <div class="ad-box" style="background:blue; color:white; border-color: cyan;">💎 개인 인증 필요 없는 간편 가입 💎</div>
+                <div class="ad-box" style="background:red; color:yellow; border-color: yellow;">🔥 보증업체 메이저 🔥</div>
+                <div class="ad-box" style="background:blue; color:white; border-color: cyan;">💎 간편 가입 💎</div>
             </div>
 
             <div id="lobby" class="view active-view">
                 <div class="game-panel">
-                    <h1 style="color:gold; font-size: 45px; margin-bottom: 10px;">SUPER 000 BET CASINO</h1>
-                    <p style="font-size: 18px;"> NO 베팅한도! 먹튀 없는 고배당 고수익 안전 사이트 </p>
+                    <h1 style="color:gold; font-size: 28px; margin-bottom: 10px;">SUPER 000 BET</h1>
+                    <p style="font-size: 14px;"> 먹튀 없는 고배당 안전 사이트 </p>
                 </div>
                 <div class="banner-ad">
-                    <div class="banner-text">⚡ 업계 최고 배당 보장! ⚡ LTE급 광속 포인트 전환 서비스 ⚡ 안전하고 공정한 게임 환경 ⚡</div>
+                    <div class="banner-text">⚡ 업계 최고 배당 보장! ⚡ LTE급 광속 포인트 전환 ⚡</div>
                 </div>
             </div>
 
             <div id="slotView" class="view">
                 <div class="game-panel">
-                    <h2>🎰 LUCKY 777 SLOT 🎰</h2>
-                    <div style="display:flex; justify-content:center; gap:10px; margin:20px;">
-                        <div id="r1" style="font-size:60px; background:#fff; padding:20px; border-radius:10px; color:#000;">7️⃣</div>
-                        <div id="r2" style="font-size:60px; background:#fff; padding:20px; border-radius:10px; color:#000;">🍒</div>
-                        <div id="r3" style="font-size:60px; background:#fff; padding:20px; border-radius:10px; color:#000;">💎</div>
+                    <h3>🎰 LUCKY 777 SLOT</h3>
+                    <div style="display:flex; justify-content:center; gap:5px; margin:15px;">
+                        <div id="r1" style="font-size:40px; background:#fff; padding:10px; border-radius:5px; color:#000;">7️⃣</div>
+                        <div id="r2" style="font-size:40px; background:#fff; padding:10px; border-radius:5px; color:#000;">7️⃣</div>
+                        <div id="r3" style="font-size:40px; background:#fff; padding:10px; border-radius:5px; color:#000;">7️⃣</div>
                     </div>
-                    <input type="number" id="slotBet" style="background:#000; color:gold; padding:10px; border:1px solid #444;" value="10000">
+                    <input type="number" id="slotBet" style="background:#000; color:gold; padding:8px; border:1px solid #444; width:80%; margin-bottom:10px;" value="10000">
                     <button id="slotBtn" class="btn-play" onclick="playSlot()">SPIN!</button>
                 </div>
             </div>
@@ -156,44 +150,39 @@
             <div id="bacView" class="view">
                 <div class="game-panel">
                     <div class="bac-table">
-                        <div id="pArea"><p style="color:#4facfe;">PLAYER</p><div id="pC1" class="card-slot"><div class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div><div id="pC2" class="card-slot"><div class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div></div>
-                        <div id="bArea"><p style="color:#ff5252;">BANKER</p><div id="bC1" class="card-slot"><div class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div><div id="bC2" class="card-slot"><div class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div></div>
+                        <div id="pArea"><div id="pC1" class="card-slot"><div class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div><div id="pC2" class="card-slot"><div class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div></div>
+                        <div id="bArea"><div id="bC1" class="card-slot"><div class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div><div id="bC2" class="card-slot"><div class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div></div>
                     </div>
-                    <input type="number" id="bacBet" style="background:#000; color:gold; padding:10px; border:1px solid #444;" value="10000">
-                    <div style="margin-top:10px;"><button class="btn-play" style="background:#4facfe;" onclick="playBac('player')">P</button><button class="btn-play" style="background:#4caf50;" onclick="playBac('tie')">T</button><button class="btn-play" style="background:#ff5252;" onclick="playBac('banker')">B</button></div>
+                    <input type="number" id="bacBet" style="background:#000; color:gold; padding:8px; border:1px solid #444; width:80%;" value="10000">
+                    <div style="margin-top:10px;"><button class="btn-play" style="background:#4facfe;" onclick="playBac('player')">P</button> <button class="btn-play" style="background:#4caf50;" onclick="playBac('tie')">T</button> <button class="btn-play" style="background:#ff5252;" onclick="playBac('banker')">B</button></div>
                 </div>
             </div>
 
             <div id="snailView" class="view">
                 <div class="game-panel">
-                    <h2>🐌 SNAIL RACING 🐌</h2>
-                    <canvas id="snailCanvas" width="700" height="260"></canvas>
-                    <div style="margin:10px;"><label><input type="radio" name="snailPick" value="0" checked> 🐌1번</label> <label><input type="radio" name="snailPick" value="1"> 🐌2번</label> <label><input type="radio" name="snailPick" value="2"> 🐌3번</label></div>
-                    <input type="number" id="snailBet" style="background:#000; color:gold; padding:10px;" value="10000">
+                    <h3>🐌 SNAIL RACING</h3>
+                    <canvas id="snailCanvas" width="600" height="200" style="background:#222;"></canvas>
+                    <div style="margin:10px; font-size:12px;"><label><input type="radio" name="snailPick" value="0" checked>1번</label> <label><input type="radio" name="snailPick" value="1">2번</label> <label><input type="radio" name="snailPick" value="2">3번</label></div>
+                    <input type="number" id="snailBet" style="background:#000; color:gold; padding:8px; width:80%;" value="10000">
                     <button id="snailBtn" class="btn-play" onclick="playSnail()">RACE!</button>
                 </div>
             </div>
 
             <div id="csCenter" class="view">
                 <div class="game-panel" style="text-align:left;">
-                    <h2>🎧 고객센터 🎧<span id="adminBadge" style="display:none; color:gold;">[관리자 모드]</span></h2>
-                    <div style="background:#000; padding:15px; border-radius:10px; margin-bottom:15px;">
-                        <input type="text" id="csTitle" placeholder="제목" style="width:100%; padding:10px; margin-bottom:10px; background:#111; color:#fff; border:1px solid #333;">
-                        <textarea id="csContent" style="width:100%; height:80px; background:#111; color:#fff; border:1px solid #333; padding:10px;"></textarea>
-                        <label><input type="checkbox" id="csSecret"> 비밀글</label>
-                        <button class="btn-play" style="float:right;" onclick="writeCS()">문의 등록</button>
-                    </div>
-                    <table class="cs-list"><thead><tr><th>제목</th><th>작성자</th><th>시간</th><th>액션</th></tr></thead><tbody id="csList"></tbody></table>
+                    <h3 style="color:gold;">🎧 고객센터 <span id="adminBadge" style="display:none;">[ADM]</span></h3>
+                    <input type="text" id="csTitle" placeholder="제목" style="width:100%; padding:8px; margin-bottom:5px; background:#111; color:#fff; border:1px solid #333;">
+                    <textarea id="csContent" style="width:100%; height:60px; background:#111; color:#fff; border:1px solid #333; padding:8px;"></textarea>
+                    <button class="btn-play" style="width:100%; margin-top:5px;" onclick="writeCS()">등록</button>
+                    <table class="cs-list"><tbody id="csList"></tbody></table>
                 </div>
             </div>
 
             <div id="myPage" class="view">
                 <div class="game-panel" style="text-align:left;">
-                    <h2>👤 회원 정보 및 베팅 내역 👤</h2>
-                    <p id="userInfo">유저 정보 로딩 중...</p>
-                    <hr style="border:1px solid #333;">
-                    <h3>최근 플레이 기록 (최대 20건)</h3>
-                    <div id="historyList" style="background:#000; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto;">내역이 없습니다.</div>
+                    <h3>👤 내 정보</h3>
+                    <p id="userInfo" style="font-size:12px;"></p>
+                    <div id="historyList" style="background:#000; padding:10px; border-radius:10px; font-size:11px; max-height:300px; overflow-y:auto;"></div>
                 </div>
             </div>
         </div>
@@ -219,167 +208,103 @@
                     const data = snap.data();
                     isAdmin = data.role === 'admin';
                     if(isAdmin) document.getElementById('adminBadge').style.display = 'inline';
-                    document.getElementById('userNick').innerText = (data.nickname || "관리자") + "님";
-                    document.getElementById('userInfo').innerText = `이메일: ${user.email} | 닉네임: ${data.nickname || "관리자"}`;
-                    updateAssetDisplay(data.balance);
+                    document.getElementById('assetVal').innerText = data.balance.toLocaleString();
+                    document.getElementById('userInfo').innerText = `ID: ${user.email} / Nick: ${data.nickname || "User"}`;
+                    curBal = data.balance;
                 }
             } else { location.href = "login.html"; }
         });
 
-        function updateAssetDisplay(newBal) {
-            const start = curBal;
-            const duration = 800;
-            let startTime = null;
-            function animate(now) {
-                if(!startTime) startTime = now;
-                const progress = Math.min((now - startTime) / duration, 1);
-                const current = Math.floor(progress * (newBal - start) + start);
-                document.getElementById('assetVal').innerText = current.toLocaleString();
-                if(progress < 1) requestAnimationFrame(animate);
-            }
-            curBal = newBal;
-            requestAnimationFrame(animate);
-        }
-
         async function processBet(gameName, bet, profit) {
+            const newBal = curBal + profit;
             await updateDoc(doc(db, "users", userObj.uid), { balance: increment(profit) });
-            updateAssetDisplay(curBal + profit);
+            document.getElementById('assetVal').innerText = newBal.toLocaleString();
+            curBal = newBal;
             await addDoc(collection(db, "history"), { uid: userObj.uid, game: gameName, bet: bet, profit: profit, time: new Date() });
         }
 
-        /* 게임 로직 (배당률 수정본 유지) */
         const emojis = ['7️⃣', '🍒', '💎', '🍋', '🍇'];
         window.playSlot = async () => {
             const bet = parseInt(document.getElementById('slotBet').value);
-            if(bet > curBal) return alert("잔액 부족");
+            if(bet > curBal) return alert("잔액부족");
             let count = 0;
             const iv = setInterval(() => {
                 document.getElementById('r1').innerText = emojis[Math.floor(Math.random()*5)];
                 document.getElementById('r2').innerText = emojis[Math.floor(Math.random()*5)];
                 document.getElementById('r3').innerText = emojis[Math.floor(Math.random()*5)];
-                if(++count > 20) {
+                if(++count > 15) {
                     clearInterval(iv);
                     const r = [document.getElementById('r1').innerText, document.getElementById('r2').innerText, document.getElementById('r3').innerText];
                     let mul = 0;
                     const sevens = r.filter(v => v === '7️⃣').length;
-                    const anyTwoEqual = (r[0] === r[1] || r[1] === r[2] || r[0] === r[2]);
                     if (sevens === 3) mul = 17.7;
                     else if (sevens === 2) mul = 2.7;
-                    else if (anyTwoEqual) mul = 1.5;
-                    else mul = 0;
+                    else if (r[0]===r[1] || r[1]===r[2] || r[0]===r[2]) mul = 1.5;
                     const profit = (bet * mul) - bet;
                     processBet("슬롯", bet, profit); showPopup(profit>=0, profit);
                 }
-            }, 80);
+            }, 100);
         };
 
         window.playBac = async (pick) => {
             const bet = parseInt(document.getElementById('bacBet').value);
-            if(bet > curBal) return alert("잔액 부족");
-            const getC = () => {
-                const n = Math.floor(Math.random()*13)+1;
-                const char = n===1?'A':n===11?'J':n===12?'Q':n===13?'K':n===10?'0':n;
-                const s = ['H','S','D','C'][Math.floor(Math.random()*4)];
-                return { v: n > 10 ? 0 : n, url: `https://deckofcardsapi.com/static/img/${char}${s}.png` };
-            };
+            if(bet > curBal) return alert("잔액부족");
+            const getC = () => ({ v: Math.floor(Math.random()*10), url: `https://deckofcardsapi.com/static/img/back.png` });
             const c = [getC(), getC(), getC(), getC()];
-            const slots = ['pC1', 'pC2', 'bC1', 'bC2'];
-            slots.forEach(s => document.querySelector(`#${s} .card-inner`).classList.remove('flipped'));
-            for(let i=0; i<4; i++) {
-                await new Promise(r => setTimeout(r, 600));
-                document.querySelector(`#${slots[i]} .card-front`).style.backgroundImage = `url(${c[i].url})`;
-                document.querySelector(`#${slots[i]} .card-inner`).classList.add('flipped');
-            }
             const pS = (c[0].v + c[2].v)%10, bS = (c[1].v + c[3].v)%10;
             const win = pS > bS ? 'player' : (bS > pS ? 'banker' : 'tie');
             let profit = (pick === win) ? (win === 'tie' ? bet * 9 : bet * 2.5) - bet : -bet;
-            setTimeout(() => { processBet("바카라", bet, profit); showPopup(profit>0, profit); }, 500);
+            processBet("바카라", bet, profit); showPopup(profit>0, profit);
         };
 
         let snX = [10, 10, 10];
         window.initSnail = () => {
             const ctx = document.getElementById('snailCanvas').getContext('2d');
-            ctx.font = "40px Arial";
             function frame() {
-                ctx.clearRect(0,0,700,260);
-                snX.forEach((x, i) => ctx.fillText("🐌", x, 70 + (i*80)));
+                ctx.clearRect(0,0,600,200);
+                snX.forEach((x, i) => { ctx.fillStyle="white"; ctx.font="30px Arial"; ctx.fillText("🐌", x, 50 + (i*60)); });
                 if(document.getElementById('snailView').classList.contains('active-view')) requestAnimationFrame(frame);
             }
             frame();
         };
         window.playSnail = async () => {
             const bet = parseInt(document.getElementById('snailBet').value), pick = parseInt(document.querySelector('input[name="snailPick"]:checked').value);
-            if(bet > curBal) return alert("잔액 부족");
+            if(bet > curBal) return alert("잔액부족");
             const iv = setInterval(() => {
                 let win = -1;
-                snX = snX.map((x, i) => { const nx = x + Math.random()*5; if(nx > 620) win = i; return nx; });
+                snX = snX.map((x, i) => { const nx = x + Math.random()*10; if(nx > 500) win = i; return nx; });
                 if(win !== -1) {
                     clearInterval(iv);
                     const p = (win === pick) ? (bet * 2.8) - bet : -bet;
                     processBet("달팽이", bet, p); showPopup(p>0, p); snX = [10,10,10];
                 }
-            }, 30);
+            }, 50);
         };
 
-        /* 고객센터/마이페이지 로직 [완전 복구] */
         window.writeCS = async () => {
-            const t = document.getElementById('csTitle').value, c = document.getElementById('csContent').value, s = document.getElementById('csSecret').checked;
+            const t = document.getElementById('csTitle').value, c = document.getElementById('csContent').value;
             if(!t || !c) return;
-            await addDoc(collection(db, "cs"), { uid: userObj.uid, email: userObj.email, title: t, content: c, secret: s, time: new Date(), reply: "" });
-            document.getElementById('csTitle').value = ""; document.getElementById('csContent').value = "";
-            loadCS();
+            await addDoc(collection(db, "cs"), { uid: userObj.uid, email: userObj.email, title: t, content: c, time: new Date() });
+            alert("등록완료"); loadCS();
         };
         async function loadCS() {
-            const q = query(collection(db, "cs"), orderBy("time", "desc"));
+            const q = query(collection(db, "cs"), orderBy("time", "desc"), limit(10));
             const snap = await getDocs(q);
-            document.getElementById('csList').innerHTML = snap.docs.map(docSnap => {
-                const d = docSnap.data();
-                const canSee = !d.secret || d.uid === userObj.uid || isAdmin;
-                return `<tr>
-                    <td style="text-align:left; cursor:pointer;" onclick="alert('${canSee ? d.content : '비밀글입니다.'}')">
-                        ${d.secret ? '🔒' : ''} ${canSee ? d.title : '비밀글입니다.'}
-                        ${d.reply ? `<div class="reply-box">ㄴ 답변: ${d.reply}</div>` : ''}
-                    </td>
-                    <td>${d.email.split('@')[0]}</td>
-                    <td style="font-size:11px;">${d.time.toDate().toLocaleDateString()}</td>
-                    <td>${isAdmin ? `<button onclick="deletePost('${docSnap.id}')" style="color:red; background:none; border:1px solid red; cursor:pointer;">삭제</button><button onclick="replyPost('${docSnap.id}')" style="color:gold; background:none; border:1px solid gold; cursor:pointer; margin-left:5px;">답변</button>` : '-'}</td>
-                </tr>`;
-            }).join('');
-        }
-        window.deletePost = async (id) => { if(confirm("삭제하시겠습니까?")) { await deleteDoc(doc(db, "cs", id)); loadCS(); } };
-        window.replyPost = async (id) => {
-            const rep = prompt("답변 입력:");
-            if(rep) { await updateDoc(doc(db, "cs", id), { reply: rep }); loadCS(); }
-        };
-
-        async function loadHistory() {
-            const q = query(collection(db, "history"), orderBy("time", "desc"), limit(20));
-            const snap = await getDocs(q);
-            document.getElementById('historyList').innerHTML = snap.docs.map(d => {
-                const h = d.data();
-                return `<div style="border-bottom:1px solid #222; padding:10px; font-size:13px;">
-                    [${h.game}] 베팅: ${h.bet.toLocaleString()} | <b>수익: <span style="color:${h.profit>=0?'#4facfe':'#ff5252'}">${h.profit.toLocaleString()}</span></b>
-                    <span style="float:right; color:#555;">${h.time.toDate().toLocaleString()}</span>
-                </div>`;
-            }).join('') || "내역이 없습니다.";
+            document.getElementById('csList').innerHTML = snap.docs.map(d => `<tr><td>${d.data().title}</td><td>${d.data().email.split('@')[0]}</td></tr>`).join('');
         }
 
-        /* 뷰 전환 */
         window.showView = (v) => {
             document.querySelectorAll('.view').forEach(e => e.classList.remove('active-view'));
             document.querySelectorAll('.menu-item').forEach(e => e.classList.remove('menu-active'));
             document.getElementById(v).classList.add('active-view');
-            const targetMenu = document.getElementById('m-' + v);
-            if(targetMenu) targetMenu.classList.add('menu-active');
+            document.getElementById('m-' + v).classList.add('menu-active');
             if(v === 'snailView') initSnail();
             if(v === 'csCenter') loadCS();
-            if(v === 'myPage') loadHistory();
         };
 
         window.showPopup = (win, am) => {
-            document.getElementById('popTitle').innerText = win ? "WINNER!" : "LOSE";
-            document.getElementById('popTitle').style.color = win ? "gold" : "red";
-            document.getElementById('popAmount').innerText = (am>=0?"+":"")+am.toLocaleString()+" KRW";
+            document.getElementById('popTitle').innerText = win ? "WIN!" : "LOSE";
+            document.getElementById('popAmount').innerText = am.toLocaleString() + " KRW";
             document.getElementById('resultPopup').style.display = 'block';
         };
         window.closePopup = () => document.getElementById('resultPopup').style.display = 'none';
