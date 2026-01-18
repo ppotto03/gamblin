@@ -216,8 +216,21 @@
                     clearInterval(iv);
                     const r = [document.getElementById('r1').innerText, document.getElementById('r2').innerText, document.getElementById('r3').innerText];
                     let mul = 0;
-                    if(r[0]===r[1] && r[1]===r[2]) mul = (r[0]==='7️⃣'?30:10);
-                    else if(r[0]===r[1] || r[1]===r[2] || r[0]===r[2]) mul = 2;
+                    
+                    const sevens = r.filter(v => v === '7️⃣').length;
+                    const equals = (r[0] === r[1] && r[1] === r[2]);
+                    const anyTwoEqual = (r[0] === r[1] || r[1] === r[2] || r[0] === r[2]);
+
+                    if (sevens === 3) {
+                        mul = 17.7; // 777이면 17.7배
+                    } else if (sevens === 2) {
+                        mul = 2.7;  // 7이 2개면 2.7배
+                    } else if (anyTwoEqual) {
+                        mul = 1.5;  // 과일(7제외) 2개면 1.5배 (또는 아무 이모지 2개 일치시)
+                    } else {
+                        mul = 0;    // 아무것도 아니면 0배
+                    }
+
                     const profit = (bet * mul) - bet;
                     processBet("슬롯", bet, profit); showPopup(profit>=0, profit);
                 }
@@ -244,7 +257,16 @@
             }
             const pS = (c[0].v + c[2].v)%10, bS = (c[1].v + c[3].v)%10;
             const win = pS > bS ? 'player' : (bS > pS ? 'banker' : 'tie');
-            const profit = (pick === win) ? (win === 'tie' ? bet * 8 : bet * 2) - bet : -bet;
+            
+            let profit = -bet;
+            if (pick === win) {
+                if (win === 'tie') {
+                    profit = (bet * 9) - bet; // 타이 9배
+                } else {
+                    profit = (bet * 2.5) - bet; // 플레이어/뱅커 2.5배
+                }
+            }
+            
             setTimeout(() => { processBet("바카라", bet, profit); showPopup(profit>0, profit); }, 500);
         };
 
@@ -268,7 +290,7 @@
                 snX = snX.map((x, i) => { const nx = x + Math.random()*5; if(nx > 620) win = i; return nx; });
                 if(win !== -1) {
                     clearInterval(iv);
-                    const p = (win === pick) ? (bet * 2.8) - bet : -bet;
+                    const p = (win === pick) ? (bet * 2.8) - bet : -bet; // 1등시 2.8배
                     processBet("달팽이", bet, p); showPopup(p>0, p); snX = [10,10,10];
                 }
             }, 30);
