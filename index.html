@@ -40,10 +40,11 @@
 
         .content { flex: 1; padding: 30px; overflow-y: auto; background: #111; position: relative; }
 
-        /* [추가된 부분] 게임 룰 박스 스타일 */
-        .rule-box { margin: 10px; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; font-size: 12px; color: #aaa; line-height: 1.6; }
-        .rule-box h4 { color: gold; margin-top: 0; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        .rule-box b { color: #fff; }
+        /* [수정된 부분] 게임 룰 박스 스타일 - 높이를 늘리고 스크롤 가능하게 변경 */
+        .rule-box { margin: 10px; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; font-size: 12px; color: #aaa; line-height: 1.8; min-height: 200px; max-height: 300px; overflow-y: auto; }
+        .rule-box h4 { color: gold; margin-top: 0; margin-bottom: 12px; border-bottom: 1px solid #444; padding-bottom: 5px; font-size: 14px; text-align: center; }
+        .rule-box b { color: #fff; display: block; margin-top: 8px; }
+        .rule-box span { color: #eebb4d; }
 
         /* 광고 디자인 */
         .side-ad { margin-top: auto; padding: 10px; }
@@ -97,10 +98,24 @@
             <div id="m-snailView" class="menu-item" onclick="showView('snailView')">달팽이 레이스</div>
             
             <div class="rule-box">
-                <h4>📜 Game Rules</h4>
-                • <b>777슬롯:</b> 777 당첨 시 17.7배 보상!<br>
-                • <b>바카라:</b> 플레이어(2.5배), 뱅커(2.5배), 타이(9배)<br>
-                • <b>달팽이:</b> 1~3번 중 우승 달팽이 예측 (2.8배)
+                <h4>📜 이용 규정 안내</h4>
+                <b>[ 🎰 777슬롯 ]</b>
+                • 7-7-7 당첨 시 : <span>17.7배</span><br>
+                • 동일 그림 2개 : <span>1.5배</span><br>
+                • 7 그림 2개 : <span>2.7배</span>
+                
+                <b>[ 🃏 바카라 ]</b>
+                • 플레이어 승리 : <span>2.5배</span><br>
+                • 뱅커 승리 : <span>2.5배</span><br>
+                • 타이(무승부) : <span>9.0배</span>
+                
+                <b>[ 🐌 달팽이 레이스 ]</b>
+                • 우승 달팽이 적중 : <span>2.8배</span><br>
+                • 중도 포기 시 베팅금 소멸
+                
+                <b>[ ⚠️ 필독 사항 ]</b>
+                • 비정상 베팅 적발 시 전액 몰수<br>
+                • 모든 베팅은 실시간 처리됩니다.
             </div>
 
             <div class="side-ad">
