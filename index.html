@@ -1,144 +1,125 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<title>S SUPER 9 BET</title>
-<style>
-body{background:#0a0a0a;color:#eee;font-family:sans-serif}
-.btn{padding:12px 20px;font-weight:900;cursor:pointer}
-.admin{color:gold;font-weight:900}
-</style>
-</head>
-<body>
-
-<h1>S SUPER 9 BET</h1>
-보유머니: <span id="assetVal">0</span>
-<span id="adminBadge" class="admin"></span>
-
-<hr>
-
-<h2>🎰 SLOT</h2>
-<div id="reels">❓ | ❓ | ❓</div>
-<input id="slotBet" value="10000">
-<button class="btn" onclick="playSlot()">SPIN</button>
-
-<hr>
-
-<h2>🐌 SNAIL</h2>
-<input type="radio" name="snailPick" value="0" checked>1
-<input type="radio" name="snailPick" value="1">2
-<input type="radio" name="snailPick" value="2">3
-<br>
-<input id="snailBet" value="10000">
-<button class="btn" onclick="playSnail()">START</button>
-
-<hr>
-
-<h2>🃏 BACCARAT</h2>
-<input id="bacBet" value="10000"><br>
-<button onclick="playBac('player')">PLAYER</button>
-<button onclick="playBac('tie')">TIE</button>
-<button onclick="playBac('banker')">BANKER</button>
-
-<hr>
-
-<h2>📨 고객센터</h2>
-<table id="csTable"></table>
-
-<!-- sounds -->
-<audio id="sndSpin" src="https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-spin-1930.mp3"></audio>
-<audio id="sndSlotResult" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
-<audio id="sndCard" src="https://assets.mixkit.co/sfx/preview/mixkit-card-flip-2000.mp3"></audio>
-<audio id="sndSnail" src="https://assets.mixkit.co/sfx/preview/mixkit-game-level-completed-2059.mp3"></audio>
-<audio id="sndWin" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
-<audio id="sndLose" src="https://assets.mixkit.co/sfx/preview/mixkit-retro-arcade-lose-2027.mp3"></audio>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 import { getAuth,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-import { getFirestore,doc,getDoc,updateDoc,increment,collection,getDocs,deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import { getFirestore,doc,getDoc,updateDoc,increment,arrayUnion,collection,addDoc,getDocs,query,orderBy,deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
 const app = initializeApp({
  apiKey:"AIzaSyDOVJtg5lxJTBP2Vm1mzbuecKu9Rg-I4k4",
  authDomain:"gambling-23339.firebaseapp.com",
  projectId:"gambling-23339"
 });
-const auth=getAuth(app),db=getFirestore(app);
+const auth=getAuth(app), db=getFirestore(app);
 
-let curBal=0,isAdmin=false,uid=null;
+let userObj=null, isAdmin=false, curBal=0, soundEnabled=false;
 
-const play=id=>document.getElementById(id).play();
+const playSnd=id=>{
+ if(!soundEnabled) return;
+ const s=document.getElementById(id);
+ if(s){ s.currentTime=0; s.play(); }
+};
 
-onAuthStateChanged(auth,async u=>{
- if(!u)return;
- uid=u.uid;
- const snap=await getDoc(doc(db,"users",uid));
- curBal=snap.data().balance;
- isAdmin=snap.data().role==="admin";
- document.getElementById("assetVal").innerText=curBal;
- if(isAdmin) document.getElementById("adminBadge").innerText="[ADMIN]";
+onAuthStateChanged(auth, async user=>{
+ if(!user) return;
+ userObj=user;
+ const snap=await getDoc(doc(db,"users",user.uid));
+ isAdmin = snap.data().role === "admin";
+ curBal = snap.data().balance;
+ assetVal.innerText = curBal.toLocaleString();
+ if(isAdmin) adminBadge.style.display="inline";
  loadCS();
 });
 
-async function payout(bet,mul){
- const profit=Math.floor(bet*mul-bet);
- await updateDoc(doc(db,"users",uid),{balance:increment(profit)});
+window.toggleSound=()=>{
+ soundEnabled=!soundEnabled;
+ soundBtn.innerText = soundEnabled ? "🔊 사운드 ON" : "🔇 사운드 OFF";
+};
+
+async function applyResult(bet,mul,game){
+ const profit = Math.floor(bet*mul - bet);
+ await updateDoc(doc(db,"users",userObj.uid),{
+  balance:increment(profit),
+  history:arrayUnion({game,bet,profit,time:new Date().toISOString()})
+ });
  curBal+=profit;
- document.getElementById("assetVal").innerText=curBal;
- play(profit>0?"sndWin":"sndLose");
+ assetVal.innerText=curBal.toLocaleString();
+ playSnd(profit>0?"sndWin":"sndLose");
 }
 
+/* 슬롯 */
+const syms=['🍎','🍊','🍇','🍒','💎','7️⃣'];
 window.playSlot=async()=>{
  const bet=+slotBet.value;
- play("sndSpin");
+ if(bet<=0||bet>curBal) return alert("머니 부족");
+ playSnd("sndSpin");
+ reels.innerText="🔄 | 🔄 | 🔄";
  setTimeout(async()=>{
-  const syms=['🍎','🍊','🍇','7️⃣'];
-  const r=[syms[Math.random()*4|0],syms[Math.random()*4|0],syms[Math.random()*4|0]];
+  const r=[syms[Math.random()*6|0],syms[Math.random()*6|0],syms[Math.random()*6|0]];
   reels.innerText=r.join(" | ");
-  play("sndSlotResult");
+  playSnd("sndSlotResult");
 
   let mul=0;
-  if(r[0]==='7️⃣'&&r[1]==='7️⃣'&&r[2]==='7️⃣') mul=17.7;
-  else if(r.filter(x=>x==='7️⃣').length===2) mul=4;
+  if(r.every(v=>v==='7️⃣')) mul=17.7;
+  else if(r.filter(v=>v==='7️⃣').length===2) mul=4;
   else if(new Set(r).size===2) mul=3;
 
-  await payout(bet,mul);
+  await applyResult(bet,mul,"슬롯");
  },1500);
 };
 
-window.playSnail=async()=>{
- const bet=+snailBet.value;
- play("sndSnail");
- const win=Math.random()*3|0;
- const pick=+document.querySelector("[name=snailPick]:checked").value;
- await payout(bet,win===pick?2.8:0);
+/* 바카라 */
+window.playBac=async pick=>{
+ const bet=+bacBet.value;
+ if(bet<=0||bet>curBal) return alert("머니 부족");
+ playSnd("sndCard");
+ const win=['player','banker','tie'][Math.random()*3|0];
+ const mul = (pick===win) ? (win==='tie'?9.8:2.8) : 0;
+ await applyResult(bet,mul,"바카라");
+ alert("결과: "+win.toUpperCase());
 };
 
-window.playBac=async(pick)=>{
- const bet=+bacBet.value;
- play("sndCard");
- const r=['player','banker','tie'][Math.random()*3|0];
- const mul=(r===pick)?(r==='tie'?9.8:2.8):0;
- await payout(bet,mul);
+/* 달팽이 */
+window.playSnail=async()=>{
+ const bet=+snailBet.value;
+ const pick=+document.querySelector("[name=snailPick]:checked").value;
+ playSnd("sndSnail");
+ const win=Math.random()*3|0;
+ await applyResult(bet, win===pick?2.8:0, "달팽이");
+ alert(`${win+1}번 우승`);
+};
+
+/* 고객센터 */
+window.writeCS=async()=>{
+ await addDoc(collection(db,"cs"),{
+  uid:userObj.uid,
+  email:userObj.email,
+  title:csTitle.value,
+  content:csContent.value,
+  secret:csSecret.checked,
+  time:new Date().toISOString()
+ });
+ loadCS();
 };
 
 async function loadCS(){
- const snap=await getDocs(collection(db,"cs"));
- csTable.innerHTML="";
- snap.forEach(d=>{
-  const row=document.createElement("tr");
-  row.innerHTML=`<td>${d.data().title}</td>
-  <td>${isAdmin?d.data().content:"비밀글"}</td>
-  ${isAdmin?`<td><button onclick="delCS('${d.id}')">삭제</button></td>`:""}`;
-  csTable.appendChild(row);
- });
+ const q=query(collection(db,"cs"),orderBy("time","desc"));
+ const snap=await getDocs(q);
+ csTableBody.innerHTML=snap.docs.map(d=>{
+  const v=d.data();
+  const can=!v.secret||v.uid===userObj.uid||isAdmin;
+  return `
+  <tr>
+   <td>${v.secret?'🔒':'📢'}</td>
+   <td onclick="alert('${can?v.content:'비밀글'}')">${can?v.title:'비밀글'}</td>
+   <td>${v.email.split('@')[0]}</td>
+   ${isAdmin?`<td><button onclick="delCS('${d.id}')">삭제</button></td>`:''}
+  </tr>`;
+ }).join("");
 }
-window.delCS=async(id)=>{
- if(confirm("삭제")){
+
+window.delCS=async id=>{
+ if(confirm("삭제?")){
   await deleteDoc(doc(db,"cs",id));
   loadCS();
  }
 };
 </script>
-</body>
-</html>
