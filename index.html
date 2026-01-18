@@ -215,7 +215,7 @@
         };
 
         onAuthStateChanged(auth, async (user) => {
-            if(user) { userObj = user; isAdmin = (user.email === 'bugye6816@gmail.com'); updateAsset(); loadCS(); }
+            if(user) { userObj = user; isAdmin = (snap.data().role === 'admin'); updateAsset(); loadCS(); }
         });
 
         async function updateAsset() {
