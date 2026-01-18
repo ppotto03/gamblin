@@ -1,297 +1,1195 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ MEGA NEON CASINO ⚡</title>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@900&display=swap" rel="stylesheet">
+
+    <title>SUPER ROYAL BET</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
+
     <style>
+
+        /* --- 3번 사진 스타일 (SUPER 9 BET) 테마 적용 --- */
+
         :root {
-            --neon-gold: #ffd700;
-            --neon-red: #ff073a;
-            --neon-blue: #00f2ff;
-            --neon-pink: #ff00ff;
-            --neon-green: #39ff14;
+
+            --bg-color: #0d0d0d;       /* 아주 어두운 검정 */
+
+            --card-bg: #1a1a1a;        /* 카드 배경 */
+
+            --text-white: #ffffff;
+
+            --text-gold: #eebb4d;      /* 고급스러운 금색 */
+
+            --accent-red: #d32f2f;
+
+            --nav-bar: #000000;
+
         }
+
+
 
         body {
-            background-color: #050505;
-            color: #fff;
+
+            background-color: var(--bg-color);
+
+            color: var(--text-white);
+
             font-family: 'Noto Sans KR', sans-serif;
-            margin: 0; padding: 0;
-            overflow-x: hidden;
+
+            margin: 0;
+
+            padding: 0;
+
+            -webkit-font-smoothing: antialiased;
+
         }
 
-        /* --- 다닥다닥 화려한 광고 배너 --- */
-        .ad-wall {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
-            background: #000;
-            border-bottom: 3px solid var(--neon-gold);
-        }
-        .ad-unit {
-            padding: 12px 5px;
-            font-size: 11px;
-            font-weight: 900;
-            text-align: center;
-            text-transform: uppercase;
-            animation: blink 0.2s infinite alternate;
-            cursor: pointer;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-        @keyframes blink { 
-            from { opacity: 1; filter: brightness(1.5); } 
-            to { opacity: 0.8; filter: brightness(0.8); } 
-        }
 
-        /* --- 네온 로고 타이틀 --- */
-        .main-logo {
-            font-family: 'Black Han Sans', sans-serif;
-            font-size: 50px;
-            text-align: center;
-            padding: 30px 0;
-            color: #fff;
-            text-shadow: 0 0 10px #fff, 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink), 0 0 80px var(--neon-pink);
-            animation: pulse 1s infinite alternate;
-        }
-        @keyframes pulse {
-            from { transform: scale(1); } to { transform: scale(1.05); }
-        }
 
-        /* --- 럭키팟 슬롯머신 구역 --- */
-        .slot-frame {
-            background: linear-gradient(145deg, #222, #000);
-            border: 10px solid #444;
-            border-radius: 30px;
-            padding: 40px;
-            margin: 20px auto;
-            max-width: 500px;
-            position: relative;
-            box-shadow: 0 0 50px var(--neon-blue);
-        }
-        .slot-screen {
-            background: #000;
-            border: 5px solid var(--neon-green);
-            border-radius: 10px;
-            height: 150px;
+        /* 상단 헤더 (모바일 앱 스타일) */
+
+        .app-header {
+
             display: flex;
+
+            justify-content: space-between;
+
             align-items: center;
-            justify-content: center;
-            font-size: 80px;
-            font-family: 'Courier New', Courier, monospace;
-            color: var(--neon-gold);
-            text-shadow: 0 0 20px var(--neon-gold);
-        }
 
-        /* --- 공통 버튼 스타일 --- */
-        .btn-neon {
-            width: 100%;
-            padding: 20px;
-            margin-top: 20px;
-            font-size: 24px;
-            font-weight: 900;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background: var(--neon-red);
-            color: white;
-            box-shadow: 0 0 15px var(--neon-red);
-            transition: 0.2s;
-        }
-        .btn-neon:hover { transform: translateY(-3px); box-shadow: 0 0 30px var(--neon-red); }
+            padding: 15px 20px;
 
-        /* --- 달팽이 레이스장 --- */
-        #snailTrack {
-            background: #222;
-            border: 4px solid var(--neon-blue);
-            border-radius: 15px;
-            margin: 20px 0;
-            overflow: hidden;
-            position: relative;
-        }
-        .snail-unit {
-            height: 80px;
+            background-color: var(--nav-bar);
+
             border-bottom: 1px solid #333;
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .snail-img {
-            width: 60px; height: 60px;
-            position: absolute; left: 10px;
-            transition: left 0.1s linear;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+
         }
 
-        /* --- 뷰 제어 --- */
-        .view { display: none; padding: 20px; }
-        .active-view { display: block; }
+        .logo {
 
-        .balance-bar {
-            background: #111;
-            padding: 15px;
+            font-size: 24px;
+
+            font-weight: 900;
+
+            font-style: italic;
+
+            color: var(--text-white);
+
+        }
+
+        .logo span { color: var(--accent-red); }
+
+        
+
+        .user-info {
+
+            font-size: 14px;
+
             text-align: right;
-            font-size: 20px;
-            color: var(--neon-gold);
-            border-bottom: 2px solid #333;
-            font-weight: bold;
+
         }
+
+        .balance-badge {
+
+            background: linear-gradient(45deg, #eebb4d, #bf953f);
+
+            color: #000;
+
+            padding: 5px 12px;
+
+            border-radius: 4px;
+
+            font-weight: 800;
+
+            font-size: 16px;
+
+        }
+
+
+
+        /* 메인 배너 (3번 사진 느낌) */
+
+        .hero-banner {
+
+            width: 100%;
+
+            height: 180px;
+
+            background: url('https://images.unsplash.com/photo-1596838132731-3301c3fd4317?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+        .hero-banner::after {
+
+            content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
+
+            background: linear-gradient(to bottom, transparent, #0d0d0d);
+
+        }
+
+        .banner-text {
+
+            position: relative;
+
+            z-index: 2;
+
+            text-align: center;
+
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+
+        }
+
+        .banner-text h1 { margin: 0; font-size: 32px; color: var(--text-gold); font-weight: 900; }
+
+        .banner-text p { margin: 5px 0 0; font-size: 14px; color: #ddd; }
+
+
+
+        /* 게임 카테고리 타이틀 */
+
+        .section-title {
+
+            padding: 20px 20px 10px;
+
+            font-size: 16px;
+
+            color: #888;
+
+            font-weight: 700;
+
+            border-bottom: 1px solid #333;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+        .section-title span { color: var(--text-white); font-size: 18px; }
+
+
+
+        /* 게임 그리드 (사진처럼 네모난 카드) */
+
+        .game-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+
+            gap: 15px;
+
+            padding: 20px;
+
+        }
+
+        .game-card {
+
+            background: var(--card-bg);
+
+            border-radius: 8px;
+
+            overflow: hidden;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: transform 0.2s;
+
+            border: 1px solid #333;
+
+        }
+
+        .game-card:active { transform: scale(0.95); }
+
+        .game-thumb {
+
+            width: 100%;
+
+            height: 120px;
+
+            background-size: cover;
+
+            background-position: center;
+
+            position: relative;
+
+        }
+
+        .game-info {
+
+            padding: 12px;
+
+        }
+
+        .game-name {
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            color: #fff;
+
+            margin-bottom: 4px;
+
+        }
+
+        .game-provider {
+
+            font-size: 11px;
+
+            color: #666;
+
+        }
+
+
+
+        /* 공통 뷰 관리 */
+
+        .view { display: none; padding-bottom: 50px; }
+
+        .active-view { display: block; animation: fadeIn 0.3s; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+
+
+        /* 게임 내부 컨테이너 */
+
+        .ingame-container {
+
+            max-width: 800px;
+
+            margin: 20px auto;
+
+            background: #151515;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            border: 1px solid #333;
+
+        }
+
+
+
+        /* 버튼 스타일 */
+
+        button { cursor: pointer; border: none; font-family: 'Noto Sans KR'; }
+
+        .btn-primary {
+
+            background: var(--text-gold);
+
+            color: #000;
+
+            font-weight: 900;
+
+            padding: 12px 0;
+
+            width: 100%;
+
+            border-radius: 6px;
+
+            font-size: 18px;
+
+        }
+
+        .btn-secondary {
+
+            background: #333;
+
+            color: #fff;
+
+            padding: 10px 20px;
+
+            border-radius: 4px;
+
+        }
+
+        
+
+        input {
+
+            background: #222; border: 1px solid #444; color: #fff; padding: 12px;
+
+            border-radius: 4px; font-size: 16px; width: 90%; margin: 10px 0;
+
+            text-align: center; font-weight: bold;
+
+        }
+
+
+
+        /* 로그인 화면 */
+
+        .auth-box {
+
+            width: 90%; max-width: 400px; margin: 80px auto; text-align: center;
+
+        }
+
+
+
+        /* --- 달팽이 & 바카라 스타일 --- */
+
+        canvas {
+
+            width: 100%;
+
+            background: #3e2723; /* 로딩 전 기본 흙색 */
+
+            border-radius: 8px;
+
+            border: 2px solid #555;
+
+        }
+
+        
+
+        /* 기록 테이블 */
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+
+        th { color: #888; text-align: left; padding: 10px; border-bottom: 1px solid #333; }
+
+        td { padding: 10px; border-bottom: 1px solid #222; }
+
+        .win { color: #4caf50; } .loss { color: #f44336; }
+
+
+
     </style>
-</head>
-<body>
 
-    <div class="ad-wall">
-        <div class="ad-unit" style="background:red;">⚠️ 입금보너스 500% ⚠️</div>
-        <div class="ad-unit" style="background:blue;">💎 VIP 전용 채널 💎</div>
-        <div class="ad-unit" style="background:green;">💸 즉시환전 1분컷 💸</div>
-        <div class="ad-unit" style="background:purple;">🔥 오늘 잭팟 5회 🔥</div>
-        <div class="ad-unit" style="background:orange;">🎰 신규슬롯 오픈 🎰</div>
-        <div class="ad-unit" style="background:teal;">🃏 무제한 바카라 🃏</div>
-        <div class="ad-unit" style="background:navy;">📢 점검공지 없음 📢</div>
-        <div class="ad-unit" style="background:maroon;">💰 출석체크 보너스 💰</div>
-    </div>
 
-    <div class="balance-bar">
-        MY CASH: ₩ <span id="balance-val">5,000,000</span>
-    </div>
 
-    <div id="lobby" class="view active-view">
-        <h1 class="main-logo">NEON CASINO</h1>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            <div onclick="showView('snailView')" style="background:#111; padding:20px; border:2px solid var(--neon-blue); border-radius:15px; text-align:center;">
-                <h2 style="color:var(--neon-blue)">🐌 달팽이</h2>
-                <p>2.9배 레이스</p>
-            </div>
-            <div onclick="showView('potView')" style="background:#111; padding:20px; border:2px solid var(--neon-pink); border-radius:15px; text-align:center;">
-                <h2 style="color:var(--neon-pink)">🎰 럭키팟</h2>
-                <p>잭팟 20배</p>
-            </div>
-        </div>
-    </div>
+    <script type="module">
 
-    <div id="potView" class="view">
-        <button onclick="showView('lobby')" style="background:none; border:1px solid #555; color:#888; cursor:pointer;">← 뒤로가기</button>
-        <h1 style="text-align:center; color:var(--neon-pink);">🎰 LUCKY POT 🎰</h1>
-        
-        <div class="slot-frame">
-            <div class="slot-screen" id="slot-result">777</div>
-        </div>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
 
-        <div style="text-align:center;">
-            <input type="number" id="pot-bet" value="100000" style="background:#000; color:var(--neon-gold); border:2px solid var(--neon-gold); padding:10px; font-size:20px; width:150px; text-align:center;">
-            <button class="btn-neon" onclick="playLuckyPot()" style="background:var(--neon-pink); box-shadow:0 0 20px var(--neon-pink);">🎰 럭키팟 돌리기!</button>
-        </div>
-    </div>
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
 
-    <div id="snailView" class="view">
-        <button onclick="showView('lobby')" style="background:none; border:1px solid #555; color:#888; cursor:pointer;">← 뒤로가기</button>
-        <h1 style="text-align:center; color:var(--neon-blue);">🐌 SNAIL RACE</h1>
-        
-        <div id="snailTrack">
-            <div class="snail-unit"><img src="https://cdn-icons-png.flaticon.com/512/2403/2403889.png" class="snail-img" id="s1"></div>
-            <div class="snail-unit"><img src="https://cdn-icons-png.flaticon.com/512/2403/2403889.png" class="snail-img" id="s2"></div>
-            <div class="snail-unit"><img src="https://cdn-icons-png.flaticon.com/512/2403/2403889.png" class="snail-img" id="s3"></div>
-        </div>
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-        <div style="text-align:center; padding:20px; background:#111; border-radius:15px;">
-            <p>우승 달팽이 선택:</p>
-            <label><input type="radio" name="snail-choice" value="s1" checked> 1번</label>
-            <label><input type="radio" name="snail-choice" value="s2"> 2번</label>
-            <label><input type="radio" name="snail-choice" value="s3"> 3번</label>
-            <br><br>
-            <input type="number" id="snail-bet" value="100000" style="background:#000; color:var(--neon-blue); border:2px solid var(--neon-blue); padding:10px; font-size:20px; width:150px; text-align:center;">
-            <button class="btn-neon" onclick="startSnailRace()" style="background:var(--neon-blue); box-shadow:0 0 20px var(--neon-blue);">🏁 레이스 시작!</button>
-        </div>
-    </div>
 
-    <script>
-        // 초기 자산 설정
-        let balance = parseInt(localStorage.getItem('myBalance')) || 5000000;
-        updateBalanceDisplay();
 
-        function updateBalanceDisplay() {
-            document.getElementById('balance-val').innerText = balance.toLocaleString();
-            localStorage.setItem('myBalance', balance);
-        }
+        // 🔥 본인의 Firebase 설정값을 여기에 붙여넣으세요!
 
-        function showView(viewId) {
+        const firebaseConfig = {
+
+  apiKey: "AIzaSyDOVJtg5lxJTBP2Vm1mzbuecKu9Rg-I4k4",
+
+  authDomain: "gambling-23339.firebaseapp.com",
+
+  projectId: "gambling-23339",
+
+  storageBucket: "gambling-23339.firebasestorage.app",
+
+  messagingSenderId: "1031894079454",
+
+  appId: "1:1031894079454:web:960ca0f1748493cdd9af4f",
+
+  measurementId: "G-GT74F5GVR2"
+
+};
+
+
+
+        const app = initializeApp(firebaseConfig);
+
+        const auth = getAuth(app);
+
+        const db = getFirestore(app);
+
+
+
+        let userDoc = null;
+
+        let userData = { balance: 0, nickname: "", role: "user", history: [] };
+
+
+
+        // --- [중요] 확실한 이미지 URL 로드 ---
+
+        // 1. 달팽이 (아이콘)
+
+        const snailImg = new Image();
+
+        snailImg.crossOrigin = "anonymous";
+
+        snailImg.src = "https://cdn-icons-png.flaticon.com/512/3063/3063822.png"; // 깔끔한 달팽이 아이콘
+
+
+
+        // 2. 트랙 배경 (흙바닥 텍스처)
+
+        const trackBg = new Image();
+
+        trackBg.crossOrigin = "anonymous";
+
+        trackBg.src = "https://img.freepik.com/free-photo/brown-soil-texture-background_1101-1668.jpg"; 
+
+
+
+        // 카드 이미지
+
+        const getCardImage = (num, suit) => {
+
+            let val = num === 0 ? '10' : num.toString();
+
+            if (num === 1) val = 'A';
+
+            return `https://deckofcardsapi.com/static/img/${val}${suit}.png`;
+
+        };
+
+
+
+        // --- 네비게이션 ---
+
+        window.showView = (id) => {
+
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-            document.getElementById(viewId).classList.add('active-view');
-        }
 
-        // --- 럭키팟 슬롯머신 로직 ---
-        function playLuckyPot() {
-            const bet = parseInt(document.getElementById('pot-bet').value);
-            if(bet > balance) return alert("잔액이 부족합니다!");
+            document.getElementById(id).classList.add('active-view');
+
             
-            balance -= bet;
-            updateBalanceDisplay();
+
+            if(id === 'snailGame') startSnailLoop();
+
+        };
+
+
+
+        // --- 데이터 관리 ---
+
+        const refreshData = async () => {
+
+            if(!auth.currentUser) return;
+
+            const snap = await getDoc(doc(db, "users", auth.currentUser.uid));
+
+            userData = snap.data();
+
             
-            const screen = document.getElementById('slot-result');
-            let count = 0;
-            const spin = setInterval(() => {
-                screen.innerText = Math.floor(Math.random() * 900 + 100);
-                count++;
-                if(count > 20) {
-                    clearInterval(spin);
-                    const isWin = Math.random() < 0.1; // 10% 확률
-                    if(isWin) {
-                        screen.innerText = "777";
-                        screen.style.color = "var(--neon-red)";
-                        const winAmt = bet * 20;
-                        balance += winAmt;
-                        setTimeout(() => alert("🎊 축하합니다! 럭키팟 777 당첨! 🎊"), 100);
-                    } else {
-                        screen.style.color = "var(--neon-gold)";
-                        const lost = Math.floor(Math.random() * 899 + 100);
-                        screen.innerText = lost === 777 ? 776 : lost;
-                    }
-                    updateBalanceDisplay();
+
+            // UI 업데이트
+
+            document.querySelectorAll('.balance-val').forEach(el => el.innerText = userData.balance.toLocaleString());
+
+            
+
+            // 기록 업데이트
+
+            const tbody = document.getElementById('historyBody');
+
+            if(tbody) {
+
+                tbody.innerHTML = (userData.history || []).slice().reverse().slice(0,10).map(h => `
+
+                    <tr>
+
+                        <td>${h.game === 'snail' ? '🐌 레이싱' : '🃏 바카라'}</td>
+
+                        <td>${h.bet.toLocaleString()}</td>
+
+                        <td class="${h.profit >= 0 ? 'win' : 'loss'}">${h.profit > 0 ? '+' : ''}${h.profit.toLocaleString()}</td>
+
+                    </tr>
+
+                `).join('');
+
+            }
+
+
+
+            // 관리자 버튼 표시
+
+            const adminBtn = document.getElementById('admin-entry');
+
+            if(adminBtn) adminBtn.style.display = (userData.role === 'admin') ? 'inline-block' : 'none';
+
+        };
+
+
+
+        // --- 관리자 기능 ---
+
+        window.adminPanel = async () => {
+
+            if (userData.role !== 'admin') return;
+
+            const uid = prompt("유저 UID 입력:");
+
+            if(!uid) return;
+
+            const val = parseInt(prompt("변경할 금액 (예: 50000 or -10000):"));
+
+            if(isNaN(val)) return;
+
+
+
+            try {
+
+                await updateDoc(doc(db, "users", uid), { balance: increment(val) });
+
+                alert("처리 완료");
+
+                if(uid === auth.currentUser.uid) refreshData();
+
+            } catch(e) { alert("오류: " + e.message); }
+
+        };
+
+
+
+        // --- 인증 ---
+
+        window.handleAuth = async (isLogin) => {
+
+            const email = document.getElementById('email').value;
+
+            const pw = document.getElementById('pw').value;
+
+            try {
+
+                if(isLogin) {
+
+                    await signInWithEmailAndPassword(auth, email, pw);
+
+                } else {
+
+                    const userCred = await createUserWithEmailAndPassword(auth, email, pw);
+
+                    await setDoc(doc(db, "users", userCred.user.uid), {
+
+                        nickname: "User", balance: 500000, role: "user", history: []
+
+                    });
+
                 }
-            }, 50);
+
+            } catch(e) { alert(e.message); }
+
+        };
+
+
+
+        onAuthStateChanged(auth, (user) => {
+
+            if(user) {
+
+                refreshData();
+
+                showView('lobby');
+
+            } else {
+
+                showView('login');
+
+            }
+
+        });
+
+
+
+        // --- 게임 1: 리얼 달팽이 레이싱 ---
+
+        let snailRaf;
+
+        let snails = [10, 10, 10]; // 위치
+
+        
+
+        function startSnailLoop() {
+
+            const cvs = document.getElementById('snailCanvas');
+
+            const ctx = cvs.getContext('2d');
+
+
+
+            function draw() {
+
+                // 1. 배경 (흙바닥) 그리기
+
+                if (trackBg.complete && trackBg.naturalHeight !== 0) {
+
+                    ctx.drawImage(trackBg, 0, 0, cvs.width, cvs.height);
+
+                } else {
+
+                    ctx.fillStyle = "#5d4037"; ctx.fillRect(0,0,cvs.width, cvs.height);
+
+                }
+
+
+
+                // 2. 결승선 (체크무늬)
+
+                for(let y=0; y<cvs.height; y+=20) {
+
+                    ctx.fillStyle = (Math.floor(y/20)%2===0) ? "#fff" : "#000";
+
+                    ctx.fillRect(cvs.width - 40, y, 20, 20);
+
+                }
+
+
+
+                // 3. 트랙 라인
+
+                ctx.strokeStyle = "rgba(255,255,255,0.5)";
+
+                ctx.beginPath();
+
+                ctx.moveTo(0, 100); ctx.lineTo(cvs.width, 100);
+
+                ctx.moveTo(0, 200); ctx.lineTo(cvs.width, 200);
+
+                ctx.stroke();
+
+
+
+                // 4. 달팽이 그리기
+
+                for(let i=0; i<3; i++) {
+
+                    const y = i * 100 + 10;
+
+                    const x = snails[i];
+
+                    
+
+                    if (snailImg.complete && snailImg.naturalHeight !== 0) {
+
+                        // 실제 달팽이 이미지
+
+                        ctx.drawImage(snailImg, x, y, 80, 80);
+
+                    } else {
+
+                        // 이미지 로드 실패 시 대체 원형
+
+                        ctx.fillStyle = "orange";
+
+                        ctx.beginPath(); ctx.arc(x+40, y+40, 30, 0, Math.PI*2); ctx.fill();
+
+                    }
+
+                    
+
+                    // 번호
+
+                    ctx.fillStyle = "#fff";
+
+                    ctx.font = "bold 20px Noto Sans KR";
+
+                    ctx.fillText(`${i+1}번`, x+20, y+50);
+
+                }
+
+                snailRaf = requestAnimationFrame(draw);
+
+            }
+
+            draw();
+
         }
 
-        // --- 달팽이 레이스 로직 ---
-        function startSnailRace() {
-            const bet = parseInt(document.getElementById('snail-bet').value);
-            if(bet > balance) return alert("잔액이 부족합니다!");
 
-            const choice = document.querySelector('input[name="snail-choice"]:checked').value;
-            balance -= bet;
-            updateBalanceDisplay();
 
-            const snails = [
-                { el: document.getElementById('s1'), pos: 10 },
-                { el: document.getElementById('s2'), pos: 10 },
-                { el: document.getElementById('s3'), pos: 10 }
-            ];
+        window.runSnail = async () => {
 
-            const finishLine = document.getElementById('snailTrack').offsetWidth - 70;
+            const betInput = document.getElementById('snail-bet');
+
+            const bet = parseInt(betInput.value);
+
+            if(bet > userData.balance || bet <= 0) return alert("잔액 부족");
+
             
-            const race = setInterval(() => {
-                let winner = null;
-                snails.forEach(s => {
-                    s.pos += Math.random() * 10;
-                    s.el.style.left = s.pos + 'px';
-                    if(s.pos >= finishLine) winner = s.el.id;
+
+            // 배팅 차감
+
+            await updateDoc(doc(db, "users", auth.currentUser.uid), { balance: increment(-bet) });
+
+            refreshData();
+
+
+
+            const pick = parseInt(document.querySelector('input[name="spick"]:checked').value);
+
+            
+
+            document.getElementById('btn-snail-start').disabled = true;
+
+
+
+            let raceInterval = setInterval(async () => {
+
+                let winner = -1;
+
+                for(let i=0; i<3; i++) {
+
+                    snails[i] += Math.random() * 5; // 속도
+
+                    if(snails[i] >= (document.getElementById('snailCanvas').width - 100)) {
+
+                        winner = i;
+
+                    }
+
+                }
+
+
+
+                if(winner !== -1) {
+
+                    clearInterval(raceInterval);
+
+                    cancelAnimationFrame(snailRaf);
+
+                    
+
+                    const isWin = (winner === pick);
+
+                    const profit = isWin ? Math.floor(bet * 2.8) : 0;
+
+                    
+
+                    setTimeout(async () => {
+
+                        alert(isWin ? `축하합니다! ${winner+1}번 우승!` : `${winner+1}번 우승.. 아쉽네요.`);
+
+                        
+
+                        await updateDoc(doc(db, "users", auth.currentUser.uid), {
+
+                            balance: increment(profit),
+
+                            history: arrayUnion({
+
+                                game: 'snail', bet: bet, profit: isWin ? profit : -bet, time: new Date().toISOString()
+
+                            })
+
+                        });
+
+                        
+
+                        // 리셋
+
+                        snails = [10, 10, 10];
+
+                        refreshData();
+
+                        document.getElementById('btn-snail-start').disabled = false;
+
+                        startSnailLoop();
+
+                    }, 500);
+
+                }
+
+            }, 20);
+
+        };
+
+
+
+        // --- 게임 2: 바카라 ---
+
+        window.playBac = async (choice) => {
+
+            const bet = parseInt(document.getElementById('bac-bet').value);
+
+            if(bet > userData.balance || bet <= 0) return alert("잔액 부족");
+
+
+
+            await updateDoc(doc(db, "users", auth.currentUser.uid), { balance: increment(-bet) });
+
+            refreshData();
+
+
+
+            const pDiv = document.getElementById('p-cards');
+
+            const bDiv = document.getElementById('b-cards');
+
+            pDiv.innerHTML = ''; bDiv.innerHTML = '';
+
+
+
+            const suits = ['H','D','C','S'];
+
+            const drawCard = () => {
+
+                const n = Math.floor(Math.random()*13)+1;
+
+                const s = suits[Math.floor(Math.random()*4)];
+
+                const score = (n>=10) ? 0 : n; // 10,J,Q,K=0
+
+                return { n, s, score: (n===1)?1:score };
+
+            };
+
+
+
+            const c1=drawCard(), c2=drawCard(), c3=drawCard(), c4=drawCard();
+
+            
+
+            // 시각적 카드 추가 함수
+
+            const addImg = (div, c) => {
+
+                const img = document.createElement('img');
+
+                img.src = getCardImage(c.n, c.s);
+
+                img.style.width = '60px'; img.style.margin = '5px';
+
+                div.appendChild(img);
+
+            };
+
+
+
+            addImg(pDiv, c1); addImg(bDiv, c3);
+
+            await new Promise(r=>setTimeout(r,500));
+
+            addImg(pDiv, c2); addImg(bDiv, c4);
+
+
+
+            const pScore = (c1.score+c2.score)%10;
+
+            const bScore = (c3.score+c4.score)%10;
+
+            
+
+            let res = 'tie';
+
+            if(pScore > bScore) res = 'player';
+
+            if(bScore > pScore) res = 'banker';
+
+
+
+            let winMult = 0;
+
+            if(choice === res) {
+
+                if(res === 'tie') winMult = 9; // 원금포함 9배
+
+                else winMult = 2; // 원금포함 2배
+
+            }
+
+
+
+            const profit = (bet * winMult);
+
+            const netProfit = profit - bet; // 순수익 (기록용) -> 사실상 딴돈은 profit - bet 이 아니라, 돌려받는 돈이 profit
+
+
+
+            setTimeout(async () => {
+
+                alert(`결과: P(${pScore}) vs B(${bScore})\n${res.toUpperCase()} 승리!`);
+
+                if(profit > 0) {
+
+                    await updateDoc(doc(db, "users", auth.currentUser.uid), { balance: increment(profit) });
+
+                }
+
+                await updateDoc(doc(db, "users", auth.currentUser.uid), {
+
+                    history: arrayUnion({
+
+                        game: 'baccarat', bet: bet, profit: profit > 0 ? profit - bet : -bet, time: new Date().toISOString()
+
+                    })
+
                 });
 
-                if(winner) {
-                    clearInterval(race);
-                    if(winner === choice) {
-                        const winAmt = Math.floor(bet * 2.9);
-                        balance += winAmt;
-                        alert(`축하합니다! 선택한 달팽이가 우승했습니다! +₩${winAmt.toLocaleString()}`);
-                    } else {
-                        alert(`아쉽네요! 우승은 ${winner.replace('s','')}번 달팽이입니다.`);
-                    }
-                    // 리셋
-                    snails.forEach(s => { s.pos = 10; s.el.style.left = '10px'; });
-                    updateBalanceDisplay();
-                }
-            }, 50);
-        }
+                refreshData();
+
+            }, 500);
+
+        };
+
+        
+
+        window.allIn = (id) => document.getElementById(id).value = userData.balance;
+
+
+
     </script>
+
+</head>
+
+<body>
+
+
+
+    <div id="login" class="view active-view">
+
+        <div class="auth-box">
+
+            <h1 class="logo">SUPER <span>9</span> BET</h1>
+
+            <p style="color:#888; margin-bottom: 30px;">프리미엄 카지노에 오신 것을 환영합니다</p>
+
+            <input type="email" id="email" placeholder="아이디 (이메일)">
+
+            <input type="password" id="pw" placeholder="비밀번호">
+
+            <button class="btn-primary" onclick="handleAuth(true)" style="margin-top:20px;">로그인</button>
+
+            <button class="btn-secondary" onclick="handleAuth(false)" style="margin-top:10px; width:100%; background:transparent; border:1px solid #555;">회원가입</button>
+
+        </div>
+
+    </div>
+
+
+
+    <div id="lobby" class="view">
+
+        <div class="app-header">
+
+            <div class="logo">SUPER <span>9</span> BET</div>
+
+            <div class="user-info">
+
+                <div class="balance-badge">₩ <span class="balance-val">0</span></div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="hero-banner">
+
+            <div class="banner-text">
+
+                <h1>JACKPOT EVENT</h1>
+
+                <p>매일 쏟아지는 10억 포인트의 기회!</p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="section-title">
+
+            <span>CASINO GAMES</span>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+
+
+        <div class="game-grid">
+
+            <div class="game-card" onclick="showView('snailGame')">
+
+                <div class="game-thumb" style="background-image: url('https://img.freepik.com/free-photo/snail-action-fantasy-nature_23-2150274577.jpg');"></div>
+
+                <div class="game-info">
+
+                    <div class="game-name">스피드 달팽이</div>
+
+                    <div class="game-provider">LIVE RACING</div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="game-card" onclick="showView('baccaratGame')">
+
+                <div class="game-thumb" style="background-image: url('https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?auto=format&fit=crop&w=600&q=80');"></div>
+
+                <div class="game-info">
+
+                    <div class="game-name">VIP 바카라</div>
+
+                    <div class="game-provider">CASINO ROYAL</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div style="padding: 20px;">
+
+            <div class="section-title"><span>베팅 기록</span></div>
+
+            <table id="historyBody"></table>
+
+            <button id="admin-entry" onclick="adminPanel()" class="btn-secondary" style="margin-top:20px; display:none;">관리자 메뉴</button>
+
+        </div>
+
+    </div>
+
+
+
+    <div id="snailGame" class="view">
+
+        <div class="app-header">
+
+            <button class="btn-secondary" onclick="showView('lobby')"><i class="fa-solid fa-arrow-left"></i> 나가기</button>
+
+            <div class="balance-badge">₩ <span class="balance-val">0</span></div>
+
+        </div>
+
+
+
+        <div class="ingame-container">
+
+            <h3 style="color:var(--text-gold); text-align:center;">🏁 LIVE SNAIL RACE</h3>
+
+            <canvas id="snailCanvas" width="800" height="300"></canvas>
+
+
+
+            <div style="margin-top:20px; text-align:center;">
+
+                <p style="color:#aaa;">우승 달팽이를 선택하세요</p>
+
+                <div style="display:flex; justify-content:center; gap:20px; margin-bottom:20px;">
+
+                    <label><input type="radio" name="spick" value="0" checked> 1번 달팽이</label>
+
+                    <label><input type="radio" name="spick" value="1"> 2번 달팽이</label>
+
+                    <label><input type="radio" name="spick" value="2"> 3번 달팽이</label>
+
+                </div>
+
+
+
+                <input type="number" id="snail-bet" placeholder="베팅 금액">
+
+                <button class="btn-secondary" style="width:auto;" onclick="allIn('snail-bet')">MAX</button>
+
+                <br><br>
+
+                <button id="btn-snail-start" class="btn-primary" onclick="runSnail()">경기 시작</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <div id="baccaratGame" class="view">
+
+        <div class="app-header">
+
+            <button class="btn-secondary" onclick="showView('lobby')"><i class="fa-solid fa-arrow-left"></i> 나가기</button>
+
+            <div class="balance-badge">₩ <span class="balance-val">0</span></div>
+
+        </div>
+
+
+
+        <div class="ingame-container">
+
+            <h3 style="color:var(--text-gold); text-align:center;">CASINO BACCARAT</h3>
+
+            
+
+            <div style="display:flex; justify-content:space-between; margin:20px 0; background:#222; padding:20px; border-radius:10px;">
+
+                <div style="text-align:center; width:45%;">
+
+                    <div style="color:#4285f4; font-weight:bold; margin-bottom:10px;">PLAYER</div>
+
+                    <div id="p-cards" style="min-height:100px; display:flex; justify-content:center;"></div>
+
+                </div>
+
+                <div style="text-align:center; width:45%;">
+
+                    <div style="color:#ea4335; font-weight:bold; margin-bottom:10px;">BANKER</div>
+
+                    <div id="b-cards" style="min-height:100px; display:flex; justify-content:center;"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <input type="number" id="bac-bet" placeholder="베팅 금액">
+
+            <button class="btn-secondary" style="width:auto;" onclick="allIn('bac-bet')">MAX</button>
+
+
+
+            <div style="display:flex; gap:10px; margin-top:20px;">
+
+                <button class="btn-primary" style="background:#4285f4; color:#fff;" onclick="playBac('player')">P (2배)</button>
+
+                <button class="btn-primary" style="background:#34a853; color:#fff;" onclick="playBac('tie')">T (9배)</button>
+
+                <button class="btn-primary" style="background:#ea4335; color:#fff;" onclick="playBac('banker')">B (2배)</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
 </body>
+
 </html>
