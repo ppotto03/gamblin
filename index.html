@@ -17,7 +17,6 @@
             min-width: 1280px; 
         }
 
-        /* 사운드 버튼 스타일 추가 */
         .sound-toggle-btn {
             margin-left: 15px;
             padding: 5px 12px;
@@ -69,6 +68,20 @@
         .game-panel { background: var(--panel-bg); border-radius: 15px; padding: 30px; text-align: center; border: 1px solid #333; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .btn-play { background: linear-gradient(to bottom, #ffd700, #b8860b); color: #000; border: none; padding: 12px 30px; font-weight: 900; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 0 #7b6500; }
         
+        /* 바카라 베팅 버튼 커스텀 스타일 */
+        .bac-btn-container { display: flex; justify-content: center; gap: 20px; margin-top: 25px; }
+        .btn-chip { 
+            width: 90px; height: 90px; border-radius: 50%; border: 5px double rgba(255,255,255,0.2);
+            color: #fff; font-size: 22px; font-weight: 900; cursor: pointer; transition: 0.3s;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); box-shadow: 0 6px 15px rgba(0,0,0,0.6);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .btn-chip:hover { transform: scale(1.1) rotate(5deg); filter: brightness(1.2); }
+        .btn-chip:active { transform: scale(0.95); box-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+        .btn-p { background: radial-gradient(circle, #4facfe 0%, #0062ff 100%); }
+        .btn-t { background: radial-gradient(circle, #4caf50 0%, #1b5e20 100%); }
+        .btn-b { background: radial-gradient(circle, #ff5252 0%, #b71c1c 100%); }
+
         .bac-table { background: radial-gradient(circle, #2e7d32, #1b5e20); border: 8px solid #3e2723; border-radius: 100px; padding: 30px; display: flex; justify-content: center; gap: 40px; margin: 20px 0; }
         .card-slot { width: 80px; height: 110px; background: rgba(0,0,0,0.3); border-radius: 5px; display: inline-block; }
         .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
@@ -210,20 +223,28 @@
             <div id="bacView" class="view">
                 <div class="game-panel">
                     <div class="bac-table">
-                        <div id="pArea"><p style="color:#4facfe;">PLAYER</p><div id="pC1" class="card-slot"><div id="pC1_inner" class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div><div id="pC2" class="card-slot"><div id="pC2_inner" class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div></div>
-                        <div id="bArea"><p style="color:#ff5252;">BANKER</p><div id="bC1" class="card-slot"><div id="bC1_inner" class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div><div id="bC2" class="card-slot"><div id="bC2_inner" class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div></div>
+                        <div id="pArea"><p style="color:#4facfe; font-weight:900;">PLAYER</p><div id="pC1" class="card-slot"><div id="pC1_inner" class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div><div id="pC2" class="card-slot"><div id="pC2_inner" class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div></div>
+                        <div id="bArea"><p style="color:#ff5252; font-weight:900;">BANKER</p><div id="bC1" class="card-slot"><div id="bC1_inner" class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div><div id="bC2" class="card-slot"><div id="bC2_inner" class="card-inner"><div class="card-back"></div><div class="card-front"></div></div></div></div>
                     </div>
-                    <input type="number" id="bacBet" style="background:#000; color:gold; padding:10px; border:1px solid #444;" value="10000">
-                    <div style="margin-top:10px;"><button class="btn-play" style="background:#4facfe;" onclick="playBac('player')">P</button><button class="btn-play" style="background:#4caf50;" onclick="playBac('tie')">T</button><button class="btn-play" style="background:#ff5252;" onclick="playBac('banker')">B</button></div>
+                    <input type="number" id="bacBet" style="background:#000; color:gold; padding:10px; border:1px solid #444; width:200px; text-align:center; font-size:18px;" value="10000">
+                    <div class="bac-btn-container">
+                        <button class="btn-chip btn-p" onclick="playBac('player')">P</button>
+                        <button class="btn-chip btn-t" onclick="playBac('tie')">T</button>
+                        <button class="btn-chip btn-b" onclick="playBac('banker')">B</button>
+                    </div>
                 </div>
             </div>
 
             <div id="snailView" class="view">
                 <div class="game-panel">
                     <h2>🐌 SNAIL RACING 🐌</h2>
-                    <canvas id="snailCanvas" width="700" height="260"></canvas>
-                    <div style="margin:10px;"><label><input type="radio" name="snailPick" value="0" checked> 🐌1번</label> <label><input type="radio" name="snailPick" value="1"> 🐌2번</label> <label><input type="radio" name="snailPick" value="2"> 🐌3번</label></div>
-                    <input type="number" id="snailBet" style="background:#000; color:gold; padding:10px;" value="10000">
+                    <canvas id="snailCanvas" width="700" height="260" style="background: rgba(0,0,0,0.5); border-radius:10px;"></canvas>
+                    <div id="snailInputs" style="margin:15px;">
+                        <label style="cursor:pointer; margin:0 10px;"><input type="radio" name="snailPick" value="0" checked> 🐌 1번</label> 
+                        <label style="cursor:pointer; margin:0 10px;"><input type="radio" name="snailPick" value="1"> 🐌 2번</label> 
+                        <label style="cursor:pointer; margin:0 10px;"><input type="radio" name="snailPick" value="2"> 🐌 3번</label>
+                    </div>
+                    <input type="number" id="snailBet" style="background:#000; color:gold; padding:10px; text-align:center;" value="10000">
                     <button id="snailBtn" class="btn-play" onclick="playSnail()">RACE!</button>
                 </div>
             </div>
@@ -269,7 +290,6 @@
 
         let userObj = null, isAdmin = false, curBal = 0;
 
-        // BGM 컨트롤러 함수
         const bgm = document.getElementById('bgmAudio');
         let isPlaying = false;
 
@@ -341,12 +361,10 @@
                     let mul = 0;
                     const sevens = r.filter(v => v === '7️⃣').length;
                     const anyTwoEqual = (r[0] === r[1] || r[1] === r[2] || r[0] === r[2]);
-                    
                     if (sevens === 3) mul = 17.4;
                     else if (sevens === 2) mul = 2.4;
                     else if (anyTwoEqual) mul = 1.2;
                     else mul = 0;
-                    
                     const profit = (bet * mul) - bet;
                     processBet("슬롯", bet, profit); showPopup(profit>=0, profit);
                 }
@@ -372,7 +390,6 @@
             }
             const pS = (c[0].v + c[2].v)%10, bS = (c[1].v + c[3].v)%10;
             const win = pS > bS ? 'player' : (bS > pS ? 'banker' : 'tie');
-            
             let profit = (pick === win) ? (win === 'tie' ? bet * 8.7 : bet * 2.2) - bet : -bet;
             setTimeout(() => { processBet("바카라", bet, profit); showPopup(profit>0, profit); }, 500);
         };
@@ -383,21 +400,44 @@
             ctx.font = "40px Arial";
             function frame() {
                 ctx.clearRect(0,0,700,260);
+                // 트랙 라인 그리기
+                ctx.strokeStyle = "#444";
+                ctx.beginPath(); ctx.moveTo(630, 0); ctx.lineTo(630, 260); ctx.stroke();
                 snX.forEach((x, i) => ctx.fillText("🐌", x, 70 + (i*80)));
                 if(document.getElementById('snailView').classList.contains('active-view')) requestAnimationFrame(frame);
             }
             frame();
         };
+
         window.playSnail = async () => {
-            const bet = parseInt(document.getElementById('snailBet').value), pick = parseInt(document.querySelector('input[name="snailPick"]:checked').value);
+            const bet = parseInt(document.getElementById('snailBet').value);
+            const pick = parseInt(document.querySelector('input[name="snailPick"]:checked').value);
             if(bet > curBal) return alert("잔액 부족");
+
+            // UI 비활성화 (선택 방지)
+            const radioBtns = document.getElementsByName('snailPick');
+            radioBtns.forEach(rb => rb.disabled = true);
+            document.getElementById('snailBtn').disabled = true;
+
             const iv = setInterval(() => {
                 let win = -1;
-                snX = snX.map((x, i) => { const nx = x + Math.random()*5; if(nx > 620) win = i; return nx; });
+                snX = snX.map((x, i) => { 
+                    // 가변 속도 로직: 기본 속도 + 랜덤 가속도
+                    const speed = Math.random() * 4 + (Math.random() > 0.7 ? Math.random() * 6 : 0);
+                    const nx = x + speed; 
+                    if(nx > 620) win = i; 
+                    return nx; 
+                });
+                
                 if(win !== -1) {
                     clearInterval(iv);
                     const p = (win === pick) ? (bet * 2.5) - bet : -bet;
-                    processBet("달팽이", bet, p); showPopup(p>0, p); snX = [10,10,10];
+                    processBet("달팽이", bet, p); 
+                    showPopup(p>0, p); 
+                    snX = [10,10,10];
+                    // UI 복구
+                    radioBtns.forEach(rb => rb.disabled = false);
+                    document.getElementById('snailBtn').disabled = false;
                 }
             }, 30);
         };
@@ -418,7 +458,7 @@
                 return `<tr>
                     <td style="text-align:left; cursor:pointer;" onclick="alert('${canSee ? d.content : '비밀글입니다.'}')">
                         ${d.secret ? '🔒' : ''} ${canSee ? d.title : '비밀글입니다.'}
-                        ${d.reply ? `<div class="reply-box">ㄴ 답변: ${d.reply}</div>` : ''}
+                        ${d.reply ? `<div style="color:gold; font-size:12px; margin-top:5px;">ㄴ 답변: ${d.reply}</div>` : ''}
                     </td>
                     <td>${d.email.split('@')[0]}</td>
                     <td style="font-size:11px;">${d.time.toDate().toLocaleDateString()}</td>
@@ -433,13 +473,7 @@
         };
 
         async function loadHistory() {
-            const q = query(
-                collection(db, "history"), 
-                where("uid", "==", userObj.uid), 
-                orderBy("time", "desc"), 
-                limit(20)
-            );
-            
+            const q = query(collection(db, "history"), where("uid", "==", userObj.uid), orderBy("time", "desc"), limit(20));
             try {
                 const snap = await getDocs(q);
                 document.getElementById('historyList').innerHTML = snap.docs.map(d => {
@@ -450,7 +484,6 @@
                     </div>`;
                 }).join('') || "내역이 없습니다.";
             } catch (e) {
-                console.error("기록 로드 실패: ", e);
                 document.getElementById('historyList').innerHTML = "내역을 불러오는 중 에러가 발생했습니다.";
             }
         }
