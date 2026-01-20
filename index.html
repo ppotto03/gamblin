@@ -8,11 +8,29 @@
     <style>
         :root { --point-gold: #eebb4d; --bg-dark: #0a0a0a; --panel-bg: #151515; --neon-red: #ff0000; --neon-yellow: #ffff00; }
         
-        body { background-color: var(--bg-dark); color: #eee; font-family: 'Noto Sans KR', sans-serif; margin: 0; overflow-x: auto; min-width: 1280px; }
+        body { 
+            background-color: var(--bg-dark); 
+            color: #eee; 
+            font-family: 'Noto Sans KR', sans-serif; 
+            margin: 0; 
+            overflow-x: auto; 
+            min-width: 1280px; 
+        }
 
-        /* 사운드 버튼 스타일 */
-        .sound-toggle { margin-left: 15px; padding: 5px 12px; background: linear-gradient(to bottom, #ffd700, #b8860b); color: #000; border: 1px solid #000; border-radius: 20px; font-size: 13px; cursor: pointer; font-weight: 900; transition: 0.3s; box-shadow: 0 0 10px rgba(255,215,0,0.5); }
-        .sound-toggle:hover { transform: scale(1.05); }
+        /* 사운드 버튼 스타일 추가 */
+        .sound-toggle-btn {
+            margin-left: 15px;
+            padding: 5px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid var(--point-gold);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+        .sound-toggle-btn:hover { background: var(--point-gold); color: #000; }
 
         #resultPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10000; 
                        background: #000; border: 3px solid var(--point-gold); padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 0 50px gold; min-width: 300px; }
@@ -23,17 +41,34 @@
         .asset-box { background: #000; padding: 8px 15px; border-radius: 5px; border: 1px solid gold; color: gold; font-weight: 900; font-size: 20px; min-width: 140px; text-align: right; box-shadow: inset 0 0 10px rgba(255,215,0,0.3); }
         .user-menu span { cursor: pointer; color: #bbb; padding: 5px 8px; border-radius: 4px; background: rgba(255,255,255,0.05); font-size: 14px; }
 
+        @keyframes neon-flash { 0% { opacity: 1; filter: brightness(1); } 50% { opacity: 0.7; filter: brightness(1.5); } 100% { opacity: 1; filter: brightness(1); } }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        
+        .ad-row { display: flex; gap: 10px; margin-bottom: 20px; }
+        .ad-box { flex: 1; height: 60px; display: flex; align-items: center; justify-content: center; font-weight: 900; border: 2px solid #fff; border-radius: 5px; animation: neon-flash 0.3s infinite; font-size: 18px; text-shadow: 1px 1px 2px #000; overflow: hidden; position: relative; }
+        .banner-ad { width: 100%; height: 100px; margin-top: 20px; border: 2px solid var(--point-gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; background: #000; position: relative; overflow: hidden; }
+        .banner-text { position: absolute; white-space: nowrap; font-size: 26px; font-weight: 900; color: #fff; animation: marquee 12s linear infinite; }
+
         .main-wrapper { display: flex; height: calc(100vh - 70px); min-width: 1280px; }
         .sidebar { width: 220px; background: #0d0d0d; border-right: 1px solid #222; display: flex; flex-direction: column; flex-shrink: 0; }
+        
         .menu-item { padding: 25px 20px; cursor: pointer; color: #888; font-weight: 700; border-left: 5px solid transparent; transition: all 0.2s; font-size: 16px; }
         .menu-item:hover { background: #1a1a1a; color: #ccc; }
         .menu-active { background: #1a1a1a !important; color: #ffff00 !important; border-left: 5px solid #ffff00 !important; font-weight: 900; }
 
         .content { flex: 1; padding: 30px; overflow-y: auto; background: #111; position: relative; }
+
+        .rule-box { margin: 10px; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; font-size: 12px; color: #aaa; line-height: 1.8; min-height: 200px; max-height: 300px; overflow-y: auto; }
+        .rule-box h4 { color: gold; margin-top: 0; margin-bottom: 12px; border-bottom: 1px solid #444; padding-bottom: 5px; font-size: 14px; text-align: center; }
+        .rule-box b { color: #fff; display: block; margin-top: 8px; }
+        .rule-box span { color: #eebb4d; }
+
+        .side-ad { margin-top: auto; padding: 10px; }
+        .mini-ad { background: #ff5252; color: #fff; padding: 8px; margin-bottom: 5px; border-radius: 5px; font-size: 12px; text-align: center; font-weight: 900; animation: neon-flash 0.5s infinite alternate; }
+
         .game-panel { background: var(--panel-bg); border-radius: 15px; padding: 30px; text-align: center; border: 1px solid #333; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         .btn-play { background: linear-gradient(to bottom, #ffd700, #b8860b); color: #000; border: none; padding: 12px 30px; font-weight: 900; border-radius: 5px; cursor: pointer; box-shadow: 0 4px 0 #7b6500; }
         
-        /* 테이블/카드/슬롯 디자인 유지 */
         .bac-table { background: radial-gradient(circle, #2e7d32, #1b5e20); border: 8px solid #3e2723; border-radius: 100px; padding: 30px; display: flex; justify-content: center; gap: 40px; margin: 20px 0; }
         .card-slot { width: 80px; height: 110px; background: rgba(0,0,0,0.3); border-radius: 5px; display: inline-block; }
         .card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
@@ -41,10 +76,18 @@
         .card-front { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; transform: rotateY(180deg); background-size: cover; }
         .flipped { transform: rotateY(180deg); }
 
-        .view { display: none; }
-        .active-view { display: block; }
         .cs-list { width: 100%; border-collapse: collapse; margin-top: 15px; }
         .cs-list th, .cs-list td { border-bottom: 1px solid #333; padding: 12px; text-align: center; }
+
+        .view { display: none; }
+        .active-view { display: block; }
+
+        .extra-ad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+        .extra-ad-card { background: #1a1a1a; border: 1px solid #444; border-radius: 10px; padding: 20px; text-align: center; transition: 0.3s; }
+        .extra-ad-card:hover { border-color: var(--point-gold); transform: translateY(-5px); }
+        .extra-ad-card h3 { color: var(--point-gold); margin-top: 0; font-size: 18px; }
+        .extra-ad-card p { font-size: 13px; color: #888; }
+        .ad-badge { display: inline-block; padding: 3px 8px; background: red; color: white; font-size: 10px; border-radius: 3px; margin-bottom: 10px; font-weight: 900; }
     </style>
 </head>
 <body>
@@ -58,7 +101,7 @@
     <div class="top-nav">
         <div class="logo">
             <span onclick="showView('lobby')">S SUPER 9 BET</span>
-            <button id="soundBtn" class="sound-toggle" onclick="toggleBGM()">🎵 PARTY BGM: OFF</button>
+            <button id="soundToggle" class="sound-toggle-btn" onclick="toggleBGM()">🔈 OFF</button>
         </div>
         <div class="nav-right">
             <div class="asset-box">₩ <span id="assetVal">0</span></div>
@@ -77,15 +120,79 @@
             <div id="m-slotView" class="menu-item" onclick="showView('slotView')">777슬롯</div>
             <div id="m-bacView" class="menu-item" onclick="showView('bacView')">바카라</div>
             <div id="m-snailView" class="menu-item" onclick="showView('snailView')">달팽이 레이스</div>
+            
+            <div class="rule-box">
+                <h4>📜 이용 규정 안내</h4>
+                <b>[ 🎰 777슬롯 ]</b>
+                • 7-7-7 당첨 시 : <span>17.4배</span><br>
+                • 동일 그림 2개 : <span>1.2배</span><br>
+                • 7 그림 2개 : <span>2.4배</span>
+                
+                <b>[ 🃏 바카라 ]</b>
+                • 플레이어 승리 : <span>2.2배</span><br>
+                • 뱅커 승리 : <span>2.2배</span><br>
+                • 타이(무승부) : <span>8.7배</span>
+                
+                <b>[ 🐌 달팽이 레이스 ]</b>
+                • 우승 달팽이 적중 : <span>2.5배</span><br>
+                • 중도 포기 시 베팅금 소멸
+                
+                <b>[ ⚠️ 필독 사항 ]</b>
+                • 비정상 베팅 적발 시 전액 몰수<br>
+                • 모든 베팅은 실시간 처리됩니다.
+            </div>
+
+            <div class="side-ad">
+                <div class="mini-ad" style="background: #00ff00; color: #000;">💸 단독 무사고 안전 놀이터 💸</div>
+                <div class="mini-ad" style="background: #ff00ff;">💎 고배당 잭팟 💎</div>
+            </div>
         </div>
 
         <div class="content">
+            <div class="ad-row">
+                <div class="ad-box" style="background:red; color:yellow; border-color: yellow;">🔥 보증업체 10년차 메이저 🔥</div>
+                <div class="ad-box" style="background:blue; color:white; border-color: cyan;">💎 개인 인증 필요 없는 간편 가입 💎</div>
+            </div>
+
             <div id="lobby" class="view active-view">
                 <div class="game-panel">
                     <h1 style="color:gold; font-size: 45px; margin-bottom: 10px;">SUPER 000 BET CASINO</h1>
-                    <p style="font-size: 18px;"> 잭팟이 터지는 화끈한 파티에 오신 것을 환영합니다! </p>
+                    <p style="font-size: 18px;"> NO 베팅한도! 먹튀 없는 고배당 고수익 안전 사이트 </p>
                 </div>
-            </div>
+                <div class="banner-ad">
+                    <div class="banner-text">⚡ 업계 최고 배당 보장! ⚡ LTE급 광속 포인트 전환 서비스 ⚡ 안전하고 공정한 게임 환경 ⚡</div>
+                </div>
+
+                <div class="extra-ad-grid">
+                    <div class="extra-ad-card">
+                        <div class="ad-badge">HOT</div>
+                        <h3>입출금 1분 컷</h3>
+                        <p>기다림 없는 무제한 환전 서비스<br>업계 유일 사고 발생 시 200% 보상</p>
+                    </div>
+                    <div class="extra-ad-card">
+                        <div class="ad-badge" style="background: #eebb4d;">EVENT</div>
+                        <h3>신규 첫충 30%</h3>
+                        <p>가입 후 첫 충전 시 포인트 폭격<br>매일매일 쏟아지는 돌발 보너스</p>
+                    </div>
+                    <div class="extra-ad-card">
+                        <div class="ad-badge" style="background: blue;">RELIABLE</div>
+                        <h3>해외 정식 라이선스</h3>
+                        <p>조작 없는 공정한 게임 시스템<br>전 세계 1위 소프트웨어 공식 파트너</p>
+                    </div>
+                    <div class="extra-ad-card">
+                        <h3>콤프 적립 2.0%</h3>
+                        <p>베팅만 해도 쌓이는 현금성 포인트<br>등급별 차등 혜택 및 주말 페이백</p>
+                    </div>
+                    <div class="extra-ad-card">
+                        <h3>지인 추천 보너스</h3>
+                        <p>함께 즐기면 혜택이 두 배!<br>친구 추천 시 실시간 보너스 즉시 지급</p>
+                    </div>
+                    <div class="extra-ad-card">
+                        <h3>24시 연중무휴</h3>
+                        <p>언제든 친절하게 응대하는<br>1:1 전문 상담 고객 센터 운영 중</p>
+                    </div>
+                </div>
+                </div>
 
             <div id="slotView" class="view">
                 <div class="game-panel">
@@ -123,49 +230,63 @@
 
             <div id="csCenter" class="view">
                 <div class="game-panel" style="text-align:left;">
-                    <h2>🎧 고객센터 🎧</h2>
-                    <table class="cs-list"><thead><tr><th>제목</th><th>작성자</th><th>시간</th></tr></thead><tbody id="csList"></tbody></table>
+                    <h2>🎧 고객센터 🎧<span id="adminBadge" style="display:none; color:gold;">[관리자 모드]</span></h2>
+                    <div style="background:#000; padding:15px; border-radius:10px; margin-bottom:15px;">
+                        <input type="text" id="csTitle" placeholder="제목" style="width:100%; padding:10px; margin-bottom:10px; background:#111; color:#fff; border:1px solid #333;">
+                        <textarea id="csContent" style="width:100%; height:80px; background:#111; color:#fff; border:1px solid #333; padding:10px;"></textarea>
+                        <label><input type="checkbox" id="csSecret"> 비밀글</label>
+                        <button class="btn-play" style="float:right;" onclick="writeCS()">문의 등록</button>
+                    </div>
+                    <table class="cs-list"><thead><tr><th>제목</th><th>작성자</th><th>시간</th><th>액션</th></tr></thead><tbody id="csList"></tbody></table>
                 </div>
             </div>
 
             <div id="myPage" class="view">
                 <div class="game-panel" style="text-align:left;">
-                    <h2>👤 마이페이지 👤</h2>
-                    <p id="userInfo">로딩 중...</p>
+                    <h2>👤 회원 정보 및 베팅 내역 👤</h2>
+                    <p id="userInfo">유저 정보 로딩 중...</p>
                     <hr style="border:1px solid #333;">
-                    <h3>최근 베팅 내역</h3>
-                    <div id="historyList">내역이 없습니다.</div>
+                    <h3>최근 플레이 기록 (최대 20건)</h3>
+                    <div id="historyList" style="background:#000; padding:15px; border-radius:10px; max-height:400px; overflow-y:auto;">내역이 없습니다.</div>
                 </div>
             </div>
         </div>
     </div>
 
+    <audio id="bgmAudio" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3" type="audio/mpeg">
+    </audio>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, updateDoc, increment, collection, addDoc, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, updateDoc, increment, collection, addDoc, getDocs, query, orderBy, deleteDoc, limit, where } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
         const firebaseConfig = { apiKey: "AIzaSyDOVJtg5lxJTBP2Vm1mzbuecKu9Rg-I4k4", authDomain: "gambling-23339.firebaseapp.com", projectId: "gambling-23339", storageBucket: "gambling-23339.firebasestorage.app", messagingSenderId: "1031894079454", appId: "1:1031894079454:web:960ca0f1748493cdd9af4f" };
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        let userObj = null, curBal = 0, isBGMOn = false;
+        let userObj = null, isAdmin = false, curBal = 0;
 
-        // 신나고 정신없는 카지노 파티 배경음악 (무한 반복)
-        const bgm = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'); 
-        bgm.loop = true;
+        // BGM 컨트롤러 함수
+        const bgm = document.getElementById('bgmAudio');
+        let isPlaying = false;
 
         window.toggleBGM = () => {
-            isBGMOn = !isBGMOn;
-            if(isBGMOn) {
-                bgm.play().catch(() => alert("화면을 한 번 클릭한 후 버튼을 눌러주세요!"));
-                document.getElementById('soundBtn').innerText = "🎵 PARTY BGM: ON";
-                document.getElementById('soundBtn').style.background = "#00ff00";
+            const btn = document.getElementById('soundToggle');
+            if(!isPlaying) {
+                bgm.play().catch(e => console.log("자동재생 방지로 인해 사용자의 상호작용이 필요합니다."));
+                btn.innerText = "🔊 ON";
+                btn.style.background = "var(--point-gold)";
+                btn.style.color = "#000";
+                isPlaying = true;
             } else {
                 bgm.pause();
-                document.getElementById('soundBtn').innerText = "🎵 PARTY BGM: OFF";
-                document.getElementById('soundBtn').style.background = "linear-gradient(to bottom, #ffd700, #b8860b)";
+                btn.innerText = "🔈 OFF";
+                btn.style.background = "rgba(255, 255, 255, 0.1)";
+                btn.style.color = "white";
+                isPlaying = false;
             }
         };
 
@@ -175,16 +296,28 @@
                 const snap = await getDoc(doc(db, "users", user.uid));
                 if(snap.exists()) {
                     const data = snap.data();
-                    document.getElementById('userNick').innerText = (data.nickname || "멤버") + "님";
-                    document.getElementById('userInfo').innerText = `이메일: ${user.email} | 닉네임: ${data.nickname}`;
+                    isAdmin = data.role === 'admin';
+                    if(isAdmin) document.getElementById('adminBadge').style.display = 'inline';
+                    document.getElementById('userNick').innerText = (data.nickname || "관리자") + "님";
+                    document.getElementById('userInfo').innerText = `이메일: ${user.email} | 닉네임: ${data.nickname || "관리자"}`;
                     updateAssetDisplay(data.balance);
                 }
             } else { location.href = "login.html"; }
         });
 
         function updateAssetDisplay(newBal) {
-            document.getElementById('assetVal').innerText = newBal.toLocaleString();
+            const start = curBal;
+            const duration = 800;
+            let startTime = null;
+            function animate(now) {
+                if(!startTime) startTime = now;
+                const progress = Math.min((now - startTime) / duration, 1);
+                const current = Math.floor(progress * (newBal - start) + start);
+                document.getElementById('assetVal').innerText = current.toLocaleString();
+                if(progress < 1) requestAnimationFrame(animate);
+            }
             curBal = newBal;
+            requestAnimationFrame(animate);
         }
 
         async function processBet(gameName, bet, profit) {
@@ -193,7 +326,6 @@
             await addDoc(collection(db, "history"), { uid: userObj.uid, game: gameName, bet: bet, profit: profit, time: new Date() });
         }
 
-        /* 게임 로직 (효과음 모두 제거됨) */
         const emojis = ['7️⃣', '🍒', '💎', '🍋', '🍇'];
         window.playSlot = async () => {
             const bet = parseInt(document.getElementById('slotBet').value);
@@ -206,7 +338,15 @@
                 if(++count > 20) {
                     clearInterval(iv);
                     const r = [document.getElementById('r1').innerText, document.getElementById('r2').innerText, document.getElementById('r3').innerText];
-                    let mul = (r[0]===r[1] && r[1]===r[2]) ? 10 : (r[0]===r[1] || r[1]===r[2] || r[0]===r[2]) ? 2 : 0;
+                    let mul = 0;
+                    const sevens = r.filter(v => v === '7️⃣').length;
+                    const anyTwoEqual = (r[0] === r[1] || r[1] === r[2] || r[0] === r[2]);
+                    
+                    if (sevens === 3) mul = 17.4;
+                    else if (sevens === 2) mul = 2.4;
+                    else if (anyTwoEqual) mul = 1.2;
+                    else mul = 0;
+                    
                     const profit = (bet * mul) - bet;
                     processBet("슬롯", bet, profit); showPopup(profit>=0, profit);
                 }
@@ -216,12 +356,25 @@
         window.playBac = async (pick) => {
             const bet = parseInt(document.getElementById('bacBet').value);
             if(bet > curBal) return alert("잔액 부족");
-            const getC = () => ({ v: Math.floor(Math.random()*10), url: `https://deckofcardsapi.com/static/img/back.png` });
+            const getC = () => {
+                const n = Math.floor(Math.random()*13)+1;
+                const char = n===1?'A':n===11?'J':n===12?'Q':n===13?'K':n===10?'0':n;
+                const s = ['H','S','D','C'][Math.floor(Math.random()*4)];
+                return { v: n > 10 ? 0 : n, url: `https://deckofcardsapi.com/static/img/${char}${s}.png` };
+            };
             const c = [getC(), getC(), getC(), getC()];
+            const slots = ['pC1', 'pC2', 'bC1', 'bC2'];
+            slots.forEach(s => document.querySelector(`#${s}_inner`).classList.remove('flipped'));
+            for(let i=0; i<4; i++) {
+                await new Promise(r => setTimeout(r, 600));
+                document.querySelector(`#${slots[i]} .card-front`).style.backgroundImage = `url(${c[i].url})`;
+                document.querySelector(`#${slots[i]}_inner`).classList.add('flipped');
+            }
             const pS = (c[0].v + c[2].v)%10, bS = (c[1].v + c[3].v)%10;
             const win = pS > bS ? 'player' : (bS > pS ? 'banker' : 'tie');
-            const profit = (pick === win) ? bet : -bet;
-            processBet("바카라", bet, profit); showPopup(profit>0, profit);
+            
+            let profit = (pick === win) ? (win === 'tie' ? bet * 8.7 : bet * 2.2) - bet : -bet;
+            setTimeout(() => { processBet("바카라", bet, profit); showPopup(profit>0, profit); }, 500);
         };
 
         let snX = [10, 10, 10];
@@ -243,27 +396,73 @@
                 snX = snX.map((x, i) => { const nx = x + Math.random()*5; if(nx > 620) win = i; return nx; });
                 if(win !== -1) {
                     clearInterval(iv);
-                    const p = (win === pick) ? bet : -bet;
+                    const p = (win === pick) ? (bet * 2.5) - bet : -bet;
                     processBet("달팽이", bet, p); showPopup(p>0, p); snX = [10,10,10];
                 }
             }, 30);
         };
 
-        async function loadHistory() {
-            const q = query(collection(db, "history"), where("uid", "==", userObj.uid), orderBy("time", "desc"), limit(20));
+        window.writeCS = async () => {
+            const t = document.getElementById('csTitle').value, c = document.getElementById('csContent').value, s = document.getElementById('csSecret').checked;
+            if(!t || !c) return;
+            await addDoc(collection(db, "cs"), { uid: userObj.uid, email: userObj.email, title: t, content: c, secret: s, time: new Date(), reply: "" });
+            document.getElementById('csTitle').value = ""; document.getElementById('csContent').value = "";
+            loadCS();
+        };
+        async function loadCS() {
+            const q = query(collection(db, "cs"), orderBy("time", "desc"));
             const snap = await getDocs(q);
-            document.getElementById('historyList').innerHTML = snap.docs.map(d => {
-                const h = d.data();
-                return `<div style="border-bottom:1px solid #222; padding:10px;">[${h.game}] 수익: <span style="color:${h.profit>=0?'#4facfe':'#ff5252'}">${h.profit.toLocaleString()}</span></div>`;
-            }).join('') || "내역 없음";
+            document.getElementById('csList').innerHTML = snap.docs.map(docSnap => {
+                const d = docSnap.data();
+                const canSee = !d.secret || d.uid === userObj.uid || isAdmin;
+                return `<tr>
+                    <td style="text-align:left; cursor:pointer;" onclick="alert('${canSee ? d.content : '비밀글입니다.'}')">
+                        ${d.secret ? '🔒' : ''} ${canSee ? d.title : '비밀글입니다.'}
+                        ${d.reply ? `<div class="reply-box">ㄴ 답변: ${d.reply}</div>` : ''}
+                    </td>
+                    <td>${d.email.split('@')[0]}</td>
+                    <td style="font-size:11px;">${d.time.toDate().toLocaleDateString()}</td>
+                    <td>${isAdmin ? `<button onclick="deletePost('${docSnap.id}')" style="color:red; background:none; border:1px solid red; cursor:pointer;">삭제</button><button onclick="replyPost('${docSnap.id}')" style="color:gold; background:none; border:1px solid gold; cursor:pointer; margin-left:5px;">답변</button>` : '-'}</td>
+                </tr>`;
+            }).join('');
+        }
+        window.deletePost = async (id) => { if(confirm("삭제하시겠습니까?")) { await deleteDoc(doc(db, "cs", id)); loadCS(); } };
+        window.replyPost = async (id) => {
+            const rep = prompt("답변 입력:");
+            if(rep) { await updateDoc(doc(db, "cs", id), { reply: rep }); loadCS(); }
+        };
+
+        async function loadHistory() {
+            const q = query(
+                collection(db, "history"), 
+                where("uid", "==", userObj.uid), 
+                orderBy("time", "desc"), 
+                limit(20)
+            );
+            
+            try {
+                const snap = await getDocs(q);
+                document.getElementById('historyList').innerHTML = snap.docs.map(d => {
+                    const h = d.data();
+                    return `<div style="border-bottom:1px solid #222; padding:10px; font-size:13px;">
+                        [${h.game}] 베팅: ${h.bet.toLocaleString()} | <b>수익: <span style="color:${h.profit>=0?'#4facfe':'#ff5252'}">${h.profit.toLocaleString()}</span></b>
+                        <span style="float:right; color:#555;">${h.time.toDate().toLocaleString()}</span>
+                    </div>`;
+                }).join('') || "내역이 없습니다.";
+            } catch (e) {
+                console.error("기록 로드 실패: ", e);
+                document.getElementById('historyList').innerHTML = "내역을 불러오는 중 에러가 발생했습니다.";
+            }
         }
 
         window.showView = (v) => {
             document.querySelectorAll('.view').forEach(e => e.classList.remove('active-view'));
             document.querySelectorAll('.menu-item').forEach(e => e.classList.remove('menu-active'));
             document.getElementById(v).classList.add('active-view');
-            if(document.getElementById('m-' + v)) document.getElementById('m-' + v).classList.add('menu-active');
+            const targetMenu = document.getElementById('m-' + v);
+            if(targetMenu) targetMenu.classList.add('menu-active');
             if(v === 'snailView') initSnail();
+            if(v === 'csCenter') loadCS();
             if(v === 'myPage') loadHistory();
         };
 
